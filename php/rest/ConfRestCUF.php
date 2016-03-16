@@ -1,6 +1,6 @@
 <?php
 
-
+/*####################################################################*/
 add_action('wp_ajax_cuf_get_all_backup', 'cuf_get_all_backup');
 
 function cuf_get_all_backup()
@@ -61,7 +61,7 @@ function cuf_exists_backup_folder_backup()
     $backupRest->existsBackupFolder();
 }
 
-
+/*####################################################################*/
 
 add_action('wp_ajax_cuf_get_options', 'cuf_get_options');
 
@@ -86,10 +86,36 @@ function cuf_restore_options()
     $optionsRest = new OptionsRestCUF();
     $optionsRest->restore();
 }
-add_action('wp_ajax_cuf_pro_have_wc_options', 'cuf_pro_have_wc_options');
+add_action('wp_ajax_cuf_have_wc_options', 'cuf_have_wc_options');
 
-function cuf_pro_have_wc_options()
+function cuf_have_wc_options()
 {
     $optionsRest = new OptionsRestCUF();
     $optionsRest->haveWooCommerce();
+}
+
+/*####################################################################*/
+
+add_action('wp_ajax_cuf_get_directories_file', 'cuf_get_directories_file');
+
+function cuf_get_directories_files()
+{
+    $filesRest = new FileRestCUF();
+    $filesRest->getAllDirectories();
+}
+
+add_action('wp_ajax_cuf_get_directory_from_directory_file', 'cuf_get_directory_from_directory_file');
+
+function cuf_get_directory_from_directory_file()
+{
+    $filesRest = new FileRestCUF();
+    $filesRest->getAllDirectoryFromDirectory();
+}
+
+add_action('wp_ajax_cuf_get_files_from_directory_file', 'cuf_get_files_from_directory_file');
+
+function cuf_get_files_from_directory_file()
+{
+    $filesRest = new FileRestCUF();
+    $filesRest->getFilesFromDirectory();
 }

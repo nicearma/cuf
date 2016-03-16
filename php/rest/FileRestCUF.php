@@ -4,34 +4,30 @@
  *
  * @author nicearma
  */
-class FileRestCUF
+class FileRestCUF extends BasicRestCUF
 {
-
-    private $databaseCUF;
-    private $optionsCUF;
-    private $helpCUF;
 
     function __construct()
     {
-        $this->databaseCUF = new DatabaseCUF();
-        $this->optionsCUF = OptionsRestCUF::readOptions();
-        $this->helpCUF = new HelperCUF();
+        parent::__construct();
     }
 
 
     public function getAllDirectories(){
-      $dirs=  $this->helpCUF::getAllDirs();
+      $dirs=  $this->helpCUF->getAllDirs($this->helpCUF->uploadDir());
       $this->helpCUF->generateResponseOk($dirs);
+
     }
 
     public function getAllDirectoryFromDirectory(){
-        $json=$this->helpCUF->getObjectFromJson();
-        $dirs=  $this->helpCUF->getDirsFromDir();
+       // $json=$this->helpCUF->getObjectFromJson();
+        $dirs=  $this->helpCUF->getDirsFromDir($this->helpCUF->uploadDir());
         $this->helpCUF->generateResponseOk($dirs);
     }
 
     public function getFilesFromDirectory(){
-
+        $files=$this->helpCUF->getFilesFromFolder($this->helpCUF->uploadDir());
+        $this->helpCUF->generateResponseOk($files);
     }
 
     public function deleteFile(){

@@ -7,13 +7,12 @@
  *
  * @author nicearma
  */
-class OptionsRestCUF
+class OptionsRestCUF extends BasicRestCUF
 {
 
-
- 	function __construct()
+    function __construct()
     {
-        set_error_handler(array('ErrorHandlerCUF', 'errorHandler'));
+        parent::__construct();
     }
     
     public function read()

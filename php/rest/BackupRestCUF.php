@@ -6,19 +6,12 @@
  *
  * @author nicearma
  */
-class BackupRestCUF
+class BackupRestCUF  extends BasicRestCUF
 {
-
-    private $databaseCUF;
-    private $optionsCUF;
-
 
     function __construct()
     {
-
-        $this->databaseCUF = new DatabaseCUF();
-        $this->optionsCUF = OptionsRestCUF::readOptions();
-
+        parent::__construct();
     }
 
     public function readAll()

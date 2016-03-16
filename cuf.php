@@ -1,240 +1,249 @@
 <?php
 /*
-  Plugin Name: CUF (Cleanup upload folder)
-  Version: 1.0
-  Plugin URI: http://www.nicearma.com/cleanup-upload-folder-cuf/
+  Plugin Name: CUF (Delete not used images)
+  Version: 2.5.2
+  Plugin URI: http://www.nicearma.com/delete-not-used-image-wordpress-cuf/
   Author: Nicearma
   Author URI: http://www.nicearma.com/
   Text Domain: cuf
-  Description: Find all file from your upload folder that are not used or simple not refered in the database of the wordpress site. 
+  Domain Path: /languages
+  Description: This plugin will delete all not used images file, the plugin search all image, not referred by any post of wordpress
  */
 
 /*
-  Copyright (c) 2014 http://www.nicearma.com
+  Copyright (c) 2016 http://www.nicearma.com
   Released under the GPL license
   http://www.gnu.org/licenses/gpl.txt
  */
 
-   
-include_once 'php/cufL.php';
+add_action('admin_init', 'CUF_admin_js');
 
-//add the js and the css to wordpress
-add_action('admin_init', 'CUF_js');
-function CUF_js() {
+add_action('admin_menu', 'CUF_admin_menu');
+
+function CUF_admin_js()
+{
+    wp_register_style('cuf-css-bootstrap', plugins_url('css/bootstrap.min.css', __FILE__));
+
     wp_register_style('cuf-css', plugins_url('css/cuf.css', __FILE__));
-    wp_register_script('cuf-js', plugins_url('js/cuf.js', __FILE__), array('backbone', 'jquery', 'jquery-ui-tabs'));
+
+    //angular dependency
+    wp_register_script('cuf-angular', plugins_url('js/external/angular.min.js', __FILE__), array('jquery', 'underscore'));
+    wp_register_script('cuf-angular-resource', plugins_url('js/external/angular-resource.min.js', __FILE__), array('cuf-angular'));
+    wp_register_script('cuf-angular-animate', plugins_url('js/external/angular-animate.min.js', __FILE__), array('cuf-angular'));
+
+    wp_register_script('cuf-bootstrap', plugins_url('js/external/bootstrap.min.js', __FILE__), array('cuf-angular'));
+
+    wp_register_script('cuf-angular-ui', plugins_url('js/external/ui-bootstrap-tpls-1.2.2.min.js', __FILE__), array('cuf-angular', 'cuf-bootstrap'));
+
+    //resources
+    wp_register_script('cuf-options-resource', plugins_url('js/resource/options-resource.js', __FILE__), array('cuf-angular-resource'));
+    wp_register_script('cuf-files-resource', plugins_url('js/resource/images-resource.js', __FILE__), array('cuf-angular-resource'));
+    wp_register_script('cuf-backup-resource', plugins_url('js/resource/backup-resource.js', __FILE__), array('cuf-angular-resource'));
+
+    //controller
+    wp_register_script('cuf-cuf-ctrl', plugins_url('js/ctrl/cuf-ctrl.js', __FILE__), array('cuf-angular'));
+    wp_register_script('cuf-options-ctrl', plugins_url('js/ctrl/options-ctrl.js', __FILE__), array('cuf-options-resource'));
+    wp_register_script('cuf-files-ctrl', plugins_url('js/ctrl/images-ctrl.js', __FILE__), array('cuf-files-resource'));
+    wp_register_script('cuf-backup-ctrl', plugins_url('js/ctrl/backup-ctrl.js', __FILE__), array('cuf-backup-resource'));
+	wp_register_script('cuf-log-ctrl', plugins_url('js/ctrl/log-ctrl.js', __FILE__), array('cuf-cuf-ctrl'));
+
+
+    //cuf principal JS
+    wp_register_script('cuf-js', plugins_url('js/cuf.js', __FILE__), array('cuf-angular', 'cuf-angular-animate', 'cuf-bootstrap', 'cuf-angular-ui'));
 }
 
 
-//add to the menu the cuf url
-add_action('admin_menu', 'CUF_option_menu');
-function CUF_option_menu() {
-    $cufOption = CUF_option();
-    $cufOptionDefault=  CUF_default();
-    //For the update problem
-    if($cufOption['version']!='0.1'){
-        foreach ($cufOption as $key=>$value){
-            if(key_exists($key, $cufOptionDefault)){
-              $cufOptionDefault[$key]=$value;  
-            }
-        }
-        CUF_add_option($cufOptionDefault);
-    }
-    add_options_page('CUF cleanup upload folder', 'CUF', 'activate_plugins', basename(__FILE__), 'CUF');
+function CUF_admin_menu()
+{
+
+    /* Add our plugin submenu and administration screen */
+    $page_hook_suffix = add_submenu_page('tools.php', // The parent page of this submenu
+        __('CUF Clean upload folder', 'cuf'), // The submenu title
+        __('CUF Clean upload folder', 'cuf'), // The screen title
+        'activate_plugins', // The capability required for access to this submenu
+        'cuf', // The slug to use in the URL of the screen
+        'CUF_display_menu' // The function to call to display the screen
+    );
+
+    /*
+      * Use the retrieved $page_hook_suffix to hook the function that links our script.
+      * This hook invokes the function only on our plugin administration screen,
+      * see: http://codex.wordpress.org/Administration_Menus#Page_Hook_Suffix
+      */
+    add_action('admin_print_scripts-' . $page_hook_suffix, 'CUF_admin_scripts');
+
 }
 
-
-function CUF_option(){
-    return unserialize(get_option("cuf_options"));
-}
-
-
-
-//principal html of cuf
-function CUF() {
-    include_once 'html/backup.php';
-    include_once 'html/option.php';
-    include_once 'html/table.php';
-
-    add_thickbox();
+function CUF_admin_scripts()
+{
+	wp_enqueue_style('cuf-css-bootstrap');
     wp_enqueue_style('cuf-css');
+
+    /* Link our already registered script to a page */
     wp_enqueue_script('cuf-js');
+
+    //include resources
+    wp_enqueue_script('cuf-options-resource');
+    wp_enqueue_script('cuf-files-resource');
+    wp_enqueue_script('cuf-backup-resource');
+
+    //include controllers
+    wp_enqueue_script('cuf-cuf-ctrl');
+    wp_enqueue_script('cuf-options-ctrl');
+    wp_enqueue_script('cuf-files-ctrl');
+    wp_enqueue_script('cuf-backup-ctrl');
+ 	wp_enqueue_script('cuf-log-ctrl');
+}
+
+/* Display our administration screen */
+function CUF_display_menu()
+{
     ?>
 
-    <p><?php _e('CUF - Cleanup upload folder') ?></p>
+    <div ng-app="cufPlugin">
 
-    <div id="cuf_general">
-        <ul id="cuf_tabs_button">
-            <li><a class="cuf_fd" href="#cuf_tabs_folder"><?php _e('Scan folder','cuf') ?></a></li>
-            <li><a class="cuf_bk" href="#cuf_tabs_backup"><?php _e('Backup','cuf') ?></a></li>
-            <li><a class="cuf_op" href="#cuf_tabs_option"><?php _e('Option','cuf') ?></a></li>
-        </ul>
-        <div class="tabDetails">
-            <div id="cuf_tabs_folder">
-                <h1><?php _e('Search by folder','cuf') ?></h1>
-            </div>
-            <div id="cuf_tabs_backup">
-                <h1><?php _e('Backup made','cuf') ?></h1>
-                <h4>Still in dev</h4>
-            </div>
-            <div id="cuf_tabs_option">
-                <h1><?php _e('Option','cuf') ?></h1>
-            </div>
+        <div ng-controller="DnuiCtrl">
+
+            <uib-tabset>
+
+                <uib-tab  heading="<?php _e('Warning', 'cuf') ?>">
+                    <h1>
+                        <?php _e('WARNING ABOUT THIS PLUGIN', 'cuf') ?>
+                    </h1>
+                    <?php include_once 'html/warning.php'; ?>
+                </uib-tab>
+
+                <uib-tab select='tabImages()' heading="<?php _e('Images', 'cuf') ?>">
+                    <h1>
+                        <?php _e('CUF search unused/used image in database', 'cuf') ?>
+                    </h1>
+                    <?php include_once 'html/images.php'; ?>
+                </uib-tab>
+
+                <uib-tab select='tabBackups()' heading="<?php _e('Backups', 'cuf') ?>">
+                    <h1>
+                        <?php _e('CUF backup', 'cuf') ?>
+                    </h1>
+                    <?php include_once 'html/backup.php'; ?>
+
+                </uib-tab>
+
+                <uib-tab select='tabOptions()' heading="<?php _e('Options', 'cuf') ?>">
+                    <h1>
+                        <?php _e('CUF options', 'cuf') ?>
+                    </h1>
+                    <?php include_once 'html/options.php'; ?>
+                </uib-tab>
+
+                <uib-tab select='tabOptions()' heading="<?php _e('Logs', 'cuf') ?>">
+                    <h1>
+                        <?php _e('CUF Logs', 'cuf') ?>
+                    </h1>
+                    <?php include_once 'html/log.php'; ?>
+                </uib-tab>
+
+            </uib-tabset>
         </div>
-
-
     </div>
-    <?php
-  
+
+<?php
+
 }
 
-
-//call the install logic went the plugin is activate
-register_activation_hook(__FILE__, 'CUF_install');
-function CUF_install() {
-    CUF_add_option(CUF_default());
+add_action('plugins_loaded', 'cuf_load_textdomain');
+function cuf_load_textdomain() {
+    load_plugin_textdomain( 'cuf', false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
 }
+//
+//function CUF_activate() {
+//    BackupRest::makeBackupFolder();
+//}
+//
+//
+//
+//register_activation_hook( __FILE__, 'CUF_activate' );
+if (is_admin()) {
 
-function CUF_add_option($options) {
-    $validator = array_filter(CUF_validator($options));
-
-    if (empty($validator)) {
-        $options = serialize($options);
-        update_option("cuf_options", $options);
+    include_once 'php/php5_3/JsonSerializable.php';
+/*
+	if (!class_exists('ErrorHandlerCUF')) {
+        include_once 'php/model/ErrorHandlerCUF.php';
     }
-}
-
-function CUF_validator(&$options) {
-    $validator = array();
-    CUF_transform_bool($options["backup"]);
-    CUF_transform_bool($options["attachement"]);
-    CUF_transform_bool($options["canDelete"]);
-    CUF_transform_bool($options["used"]);
-    if (!(is_numeric($options["slice"]))) {
-        array_push($validator, "slice is not good");
-    } else {
-        if (($options["slice"] == 0)) {
-            $options["slice"] = intval($options["slice"]);
-        }
+*/
+ 	if (!class_exists('RestResponseCUF')) {
+        include_once 'php/model/RestResponseCUF.php';
     }
-    return $validator;
-}
 
-function CUF_transform_bool(&$var) {
-    if ($var == 'true') {
-        $var = true;
-    } else {
-        $var = false;
+    if (!class_exists('HelperCUF')) {
+        include_once 'php/helpers/HelperCUF.php';
     }
-}
 
-
-//default option
-function CUF_default(){
-      $option = array(
-        'version'=>'0.1',
-        'backup' => false,
-        'canDelete' => false,
-        'attachement' => true,
-        'used' => true, 
-        'slice'=>0,
-        'ignore'=>array(),
-          );
-      return $option;
-}
-
-
-
-//************************DIRECTORY ACTION****************************************
-add_action('wp_ajax_cuf_get_dirs', 'CUF_ajax_get_dirs');
-
-function CUF_ajax_get_dirs() {
-    $base = wp_upload_dir();
-    $base = $base['basedir'];
-    $dirs=CUF_get_all_dir_or_files($base, 0);
-    $out=array();
-    foreach ($dirs as $key=>$dir) {
-      $out[$key]['name']=$dir;  
+	if (!class_exists('OptionsCUF')) {
+        include_once 'php/model/OptionsCUF.php';
     }
-    echo json_encode($out);
-    die();
-}
-
-
-add_action('wp_ajax_cuf_get_files', 'CUF_ajax_get_files');
-
-function CUF_ajax_get_files() {
-    $dir=$_POST['dir'];
-    $cufOption=CUF_option();
-    echo json_encode(array('status'=>200,'results'=>CUF_get_files($dir,$cufOption['attachement'],$cufOption['used'])));
-    die();
-}
-
-add_action('wp_ajax_cuf_delete_files', 'CUF_ajax_delete_files');
-
-function CUF_ajax_delete_files() {
-    $dir=$_POST['dir'];
-    $files=$_POST['files'];
-    $result=array('status'=>200);
-    try{
-        CUF_delete_files($dir,$files);
-        
-    } catch (Exception $ex) {
-        $result['status']=500;
+	if (!class_exists('DatabaseCUF')) {
+        include_once 'php/model/DatabaseCUF.php';
     }
-    echo json_encode($result);
-    die();
+	if (!class_exists('FileCUF')) {
+        include_once 'php/model/FileCUF.php';
+    }
+	if (!class_exists('StatusBackupCUF')) {
+        include_once 'php/model/StatusBackupCUF.php';
+    }
+    if (!class_exists('StatusCUF')) {
+        include_once 'php/model/StatusCUF.php';
+    }
+
+
+    if (!class_exists('ConvertJsonToSavePHP')) {
+        include_once 'php/converters/ConvertJsonToSavePHP.php';
+    }
+    if (!class_exists('ConvertOptionsCUF')) {
+        include_once 'php/converters/ConvertOptionsCUF.php';
+    }
+    if (!class_exists('ConvertWordpressToCUF')) {
+        include_once 'php/converters/ConvertWordpressToCUF.php';
+    }
+
+
+    if (!class_exists('OptionsRestCUF')) {
+        include_once 'php/rest/OptionsRestCUF.php';
+    }
+    if (!class_exists('FileRestCUF')) {
+        include_once 'php/rest/FileRestCUF.php';
+    }
+    if (!class_exists('BackupRestCUF')) {
+        include_once 'php/rest/BackupRestCUF.php';
+    }
+
+
+    if (!class_exists('CheckerImageAbstractCUF')) {
+        include_once 'php/checkers/CheckerImageAbstractCUF.php';
+    }
+    if (!class_exists('CheckerImageExcerptAllCUF')) {
+        include_once 'php/checkers/CheckerImageExcerptAllCUF.php';
+    }
+    if (!class_exists('CheckerImageExcerptBestLuckCUF')) {
+        include_once 'php/checkers/CheckerImageExcerptBestLuckCUF.php';
+    }
+    if (!class_exists('CheckerImagePostAndPageAllCUF')) {
+        include_once 'php/checkers/CheckerImagePostAndPageAllCUF.php';
+    }
+    if (!class_exists('CheckerImagePostAndPageBestLuckCUF')) {
+        include_once 'php/checkers/CheckerImagePostAndPageBestLuckCUF.php';
+    }
+    if (!class_exists('CheckerImagePostMetaCUF')) {
+        include_once 'php/checkers/CheckerImagePostMetaCUF.php';
+    }
+    if (!class_exists('CheckerImagePostMetaCUF')) {
+        include_once 'php/checkers/CheckerImagePostMetaCUF.php';
+    }
+    if (!class_exists('CheckersCUF')) {
+        include_once 'php/checkers/CheckersCUF.php';
+    }
+
+    include_once 'php/rest/ConfRestCUF.php';
+    
+
+
 }
-
-
-
-//***************************BACKUP SYSTEM****************************************
-add_action('wp_ajax_cuf_get_backup', 'CUF_ajax_get_backup');
-
-function CUF_ajax_get_backup() {
-    echo json_encode(CUF_get_backup());
-    die();
-}
-
-add_action('wp_ajax_cuf_restore_backup', 'CUF_ajax_restore_backup');
-
-function CUF_ajax_restore_backup() {
-
-    echo json_encode(CUF_restore_backup($_POST["restore"]));
-    die();
-}
-//TODO:CHange this
-add_action('wp_ajax_cuf_delete_backup', 'CUF_ajax_delete_backup');
-
-function CUF_ajax_delete_backup() {
-    echo json_encode(CUF_delete_backups($_POST["delet"]));
-    die();
-}
-
-add_action('wp_ajax_cuf_cleanup_backup', 'CUF_ajax_cleanup_backup');
-
-function CUF_ajax_cleanup_backup() {
-    echo json_encode(CUF_cleanup_backup());
-    die();
-}
-
-
-add_action('wp_ajax_cuf_get_option', 'CUF_ajax_get_option');
-
-function CUF_ajax_get_option() {
-    $cufOption = unserialize(get_option("cuf_options"));
-    echo json_encode($cufOption);
-    die();
-}
-
-add_action('wp_ajax_cuf_save_option', 'CUF_ajax_save_option');
-
-function CUF_ajax_save_option() {
-    $option= $_POST['option'];
-    CUF_add_option($option);
-    CUF_option();
-    echo json_encode($option);
-    die();
-}
-
-?>

@@ -1,101 +1,109 @@
 <?php
+
 /**
  * Description of HelperCUF
  *
  * @author nicearma
  */
-class HelperCUF {
+class HelperCUF
+{
 
 
-    /**
-     * Only the folders
-     * @param type $dirBase
-     * @return array
-     */
-    public static function getAllDirs($dirBase) {
+    public function getAllDirs($dirBase)
+    {
+
+        $recursiveDir = new RecursiveDirectoryIterator($dirBase, RecursiveDirectoryIterator::SKIP_DOTS);
 
         $iter = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dirBase, RecursiveDirectoryIterator::SKIP_DOTS),
+            $recursiveDir,
             RecursiveIteratorIterator::SELF_FIRST,
-            RecursiveIteratorIterator::CATCH_GET_CHILD // Ignore "Permission denied"
+            RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
         $paths = array($dirBase);
-        
+
         foreach ($iter as $path => $dir) {
             if ($dir->isDir()) {
                 $paths[] = $path;
             }
         }
-        
+
         return $paths;
     }
-    
-/**
-     * Only the folders
-     * @param type $dirBase
-     * @return array
-     */
-    public static function getDirsFromDir($dirBase) {
+
+    public function getDirsFromDir($dirBase)
+    {
+
+        $recursiveDir = new RecursiveDirectoryIterator($dirBase, RecursiveDirectoryIterator::SKIP_DOTS);
 
         $iter = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dirBase, RecursiveDirectoryIterator::SKIP_DOTS),
+            $recursiveDir,
             RecursiveIteratorIterator::SELF_FIRST,
-            RecursiveIteratorIterator::CATCH_GET_CHILD // Ignore "Permission denied"
+            RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
         $paths = array($dirBase);
-        
+
         foreach ($iter as $path => $dir) {
             if ($dir->isDir()) {
                 $paths[] = $path;
             }
         }
-        
+
         return $paths;
     }
 
 
-    public static function getFilesByFolder($dirBase) {
+    public function getFilesFromFolder($dirBase)
+    {
 
-        $dirIterator=new DirectoryIterator($dirBase, DirectoryIterator::SKIP_DOTS);
+        $dirIterator = new DirectoryIterator($dirBase);
 
-        $iter = new IteratorIterator(
-            new DirectoryIterator($dirBase, DirectoryIterator::SKIP_DOTS));
+        $iter = new IteratorIterator($dirIterator);
 
         $paths = array();
-        
+
         foreach ($iter as $path => $dir) {
             if (!$dir->isDir()) {
                 $paths[] = $path;
             }
         }
-        
+
         return $paths;
     }
 
-    public static function fileExist($src){
+    public function fileExist($src)
+    {
         $uploadDir = wp_upload_dir();
-        if( file_exists($uploadDir['basedir'].'/'.$src)){
+        if (file_exists($uploadDir['basedir'] . '/' . $src)) {
             return 1;
         }
         return 0;
     }
 
 
-	public static function backupFolderExist(){
-		return file_exists(HelperCUF::backupDir());
-	}
-
- public static function backupDir()
+    public function backupFolderExist()
     {
-        $uploadDir = wp_upload_dir();
-        $basedir = $uploadDir['basedir'];
-        $backupDir = $basedir . '/' . 'cuf_backups';
+        return file_exists($this->backupDir());
+    }
+
+    public function backupDir()
+    {
+
+        $backupDir = $this->uploadDir() . '/' . 'cuf_backups';
         return $backupDir;
     }
 
-    public static function copy($source, $dest) {
+
+    public function uploadDir()
+    {
+        $uploadDir = wp_upload_dir();
+        $basedir = $uploadDir['basedir'];
+        return $basedir;
+    }
+
+    public function copy($source, $dest)
+    {
         if (file_exists($source)) {
             return copy($source, $dest);
         } else {
@@ -103,11 +111,13 @@ class HelperCUF {
         }
     }
 
-    public static function generateResponseOk($data){
+    public function generateResponseOk($data)
+    {
         json_encode(new RestResponseCuf($data));
     }
 
-    public static function getObjectFromJson(){
+    public function getObjectFromJson()
+    {
         return json_decode(file_get_contents('php://input'), true);
     }
 
