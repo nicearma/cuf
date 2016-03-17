@@ -5,7 +5,7 @@
  *
  * @author nicearma
  */
-class OptionsDNUI implements JsonSerializable
+class OptionsCUF implements JsonSerializable
 {
 
     public $version;

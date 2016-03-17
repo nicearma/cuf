@@ -1,6 +1,6 @@
 <?php
 
-class StatusDNUI implements JsonSerializable
+class StatusCUF implements JsonSerializable
 {
 
 

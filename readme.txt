@@ -1,6 +1,6 @@
 === CUF Cleanup upload folder===
 Contributors: nicearma
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=DX8UCXHB6RMD4&lc=US&item_name=DNUI%20donation&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted
+Donate link: 
 Tags: image, file, upload cleanup, cleanup, cleanup upload, delete files
 Requires at least: 4.0
 Tested up to: 4.0

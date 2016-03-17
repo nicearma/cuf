@@ -1,13 +1,13 @@
 <?php
 /*
-  Plugin Name: CUF (Delete not used images)
-  Version: 2.5.2
-  Plugin URI: http://www.nicearma.com/delete-not-used-image-wordpress-cuf/
+  Plugin Name: CUF (Clean upload folder)
+  Version: 1.0
+  Plugin URI: https://wordpress.org/plugins/cuf-cleanup-upload-folder/
   Author: Nicearma
   Author URI: http://www.nicearma.com/
   Text Domain: cuf
   Domain Path: /languages
-  Description: This plugin will delete all not used images file, the plugin search all image, not referred by any post of wordpress
+  Description: Find all files from your upload folder, and find out if there are not used file or simple not refered in the database.
  */
 
 /*
@@ -102,7 +102,7 @@ function CUF_display_menu()
 
     <div ng-app="cufPlugin">
 
-        <div ng-controller="DnuiCtrl">
+        <div ng-controller="CufCtrl">
 
             <uib-tabset>
 
@@ -113,11 +113,11 @@ function CUF_display_menu()
                     <?php include_once 'html/warning.php'; ?>
                 </uib-tab>
 
-                <uib-tab select='tabImages()' heading="<?php _e('Images', 'cuf') ?>">
+                <uib-tab select='tabFiles()' heading="<?php _e('Files', 'cuf') ?>">
                     <h1>
-                        <?php _e('CUF search unused/used image in database', 'cuf') ?>
+                        <?php _e('CUF search unused/used image in the upload folder', 'cuf') ?>
                     </h1>
-                    <?php include_once 'html/images.php'; ?>
+                    <?php include_once 'html/files.php'; ?>
                 </uib-tab>
 
                 <uib-tab select='tabBackups()' heading="<?php _e('Backups', 'cuf') ?>">
@@ -135,7 +135,7 @@ function CUF_display_menu()
                     <?php include_once 'html/options.php'; ?>
                 </uib-tab>
 
-                <uib-tab select='tabOptions()' heading="<?php _e('Logs', 'cuf') ?>">
+                <uib-tab select='tabLogs()' heading="<?php _e('Logs', 'cuf') ?>">
                     <h1>
                         <?php _e('CUF Logs', 'cuf') ?>
                     </h1>
@@ -206,6 +206,9 @@ if (is_admin()) {
     }
 
 
+    if (!class_exists('BasicRestCUF')) {
+        include_once 'php/rest/BasicRestCUF.php';
+    }
     if (!class_exists('OptionsRestCUF')) {
         include_once 'php/rest/OptionsRestCUF.php';
     }
