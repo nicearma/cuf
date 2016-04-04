@@ -1,13 +1,13 @@
 <?php
 /*
-  Plugin Name: CUF (Clean upload folder)
+  Plugin Name: CUF (Clean upload path)
   Version: 1.0
-  Plugin URI: https://wordpress.org/plugins/cuf-cleanup-upload-folder/
+  Plugin URI: https://wordpress.org/plugins/cuf-cleanup-upload-path/
   Author: Nicearma
   Author URI: http://www.nicearma.com/
   Text Domain: cuf
   Domain Path: /languages
-  Description: Find all files from your upload folder, and find out if there are not used file or simple not refered in the database.
+  Description: Find all files from your upload path, and find out if there are not used file or simple not refered in the database.
  */
 
 /*
@@ -58,8 +58,8 @@ function CUF_admin_menu()
 
     /* Add our plugin submenu and administration screen */
     $page_hook_suffix = add_submenu_page('tools.php', // The parent page of this submenu
-        __('CUF Clean upload folder', 'cuf'), // The submenu title
-        __('CUF Clean upload folder', 'cuf'), // The screen title
+        __('CUF Clean upload path', 'cuf'), // The submenu title
+        __('CUF Clean upload path', 'cuf'), // The screen title
         'activate_plugins', // The capability required for access to this submenu
         'cuf', // The slug to use in the URL of the screen
         'CUF_display_menu' // The function to call to display the screen
@@ -115,7 +115,7 @@ function CUF_display_menu()
 
                 <uib-tab select='tabFiles()' heading="<?php _e('Files', 'cuf') ?>">
                     <h1>
-                        <?php _e('CUF search unused/used image in the upload folder', 'cuf') ?>
+                        <?php _e('CUF search unused/used image in the upload path', 'cuf') ?>
                     </h1>
                     <?php include_once 'html/files.php'; ?>
                 </uib-tab>

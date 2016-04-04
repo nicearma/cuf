@@ -11,15 +11,12 @@ class FileCUF implements JsonSerializable
     public $id;
     public $name;
     public $status;
-    public $folder;
+    public $path;
     public $src; //the origina src
     public $size;
     public $type;
 
-    function __construct()
-    {
-      
-    }
+
 
     /**
      * @return mixed
@@ -72,17 +69,17 @@ class FileCUF implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getFolder()
+    public function getPath()
     {
-        return $this->folder;
+        return $this->path;
     }
 
     /**
-     * @param mixed $folder
+     * @param mixed $path
      */
-    public function setFolder($folder)
+    public function setPath($path)
     {
-        $this->folder = $folder;
+        $this->path = $path;
     }
 
     /**

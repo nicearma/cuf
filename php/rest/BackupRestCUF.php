@@ -127,14 +127,14 @@ class BackupRestCUF  extends BasicRestCUF
                 }
                 $statusBySizes[$sizeName] = new StatusCUF();
                 $statusBySizes[$sizeName]->setUsed(5); //5-> backup made
-                $statusBySizes[$sizeName]->setInServer(5); //in backup folder
+                $statusBySizes[$sizeName]->setInServer(5); //in backup path
             }
 
         } else {
             foreach ($sizeNames as $sizeName) {
                 $statusBySizes[$sizeName] = new StatusCUF();
                 $statusBySizes[$sizeName]->setUsed(-5); //-5-> backup error
-                $statusBySizes[$sizeName]->setInServer(-5); //in backup folder error
+                $statusBySizes[$sizeName]->setInServer(-5); //in backup path error
 
             }
 
@@ -183,7 +183,7 @@ class BackupRestCUF  extends BasicRestCUF
 
         }
 
-        $statusBackup->setInServer(2); //2 -> in the upload folder
+        $statusBackup->setInServer(2); //2 -> in the upload path
         echo json_encode($statusBackup);
         wp_die();
     }

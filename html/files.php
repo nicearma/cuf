@@ -2,25 +2,26 @@
 
     <select ng-change="scanPathDir()" ng-model="pathDir" ng-options="dir for dir in directories.data"></select>
 
-    <span ng-if="_.isUndefined(pathDir)&&files.data.length==0"><?php _e("Any file was found in this folder",'cuf') ?></span>
+    <span ng-if="_.isUndefined(pathDir)&&files.data.length==0"><?php _e("Any file was found in this path",'cuf') ?></span>
 
-    {{files}}
-    <table ng-if="files.data.length>0">
+    <table ng-if="files.data.length>0"  class="wp-list-table widefat fixed">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Size</th>
-            <th>Type</th>
-            <th>Attached</th>
-            <th>Used</th>
-            <th>Action</th>
+            <th class="manage-column column-title">Name</th>
+            <th class="manage-column column-title">Size</th>
+            <th class="manage-column column-title">Type</th>
+            <th class="manage-column column-title">Path</th>
+            <th class="manage-column column-title">Attached</th>
+            <th class="manage-column column-title">Used</th>
+            <th class="manage-column column-title">Action</th>
         </tr>
         </thead>
         <tbody>
             <tr ng-repeat="file in files.data">
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{file.name}}</td>
+                <td>{{file.size}}</td>
+                <td>{{file.type}}</td>
+                <td>{{file.path}}</td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -75,17 +75,17 @@
         <tr>
             <td scope="row">
                 <p>
-                    <?php _e("Create backup folder", 'cuf'); ?>
+                    <?php _e("Create backup path", 'cuf'); ?>
                 </p>
             </td>
             <td>
                 <button ng-if="statusBackup.inServer<1"
-                        ng-click="makeBackupFolder()"> <?php _e("Create backup folder", 'cuf'); ?></button>
+                        ng-click="makeBackupFolder()"> <?php _e("Create backup path", 'cuf'); ?></button>
                 <p style="color: #00FF00"
-                   ng-if="statusBackup.inServer>0"> <?php _e("Backup folder exist", 'cuf'); ?></p>
+                   ng-if="statusBackup.inServer>0"> <?php _e("Backup path exist", 'cuf'); ?></p>
 
                 <p style="color: #FF0000"
-                   ng-if="statusBackup.inServer===-3"> <?php _e("Can not create backup folder, ask for help", 'cuf'); ?></p>
+                   ng-if="statusBackup.inServer===-3"> <?php _e("Can not create backup path, ask for help", 'cuf'); ?></p>
             </td>
         </tr>
         <tr>

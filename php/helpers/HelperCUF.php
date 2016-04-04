@@ -42,8 +42,8 @@ class HelperCUF
         $dirs = array();
 
         foreach ($iter as $file) {
-            if(!$file->isFile()&&!$file->isDot())
-                $dirs[]=$file->getFilename();
+            if (!$file->isFile() && !$file->isDot())
+                $dirs[] = $file->getFilename();
 
         }
 
@@ -61,18 +61,15 @@ class HelperCUF
         $files = array();
 
         foreach ($iter as $file) {
-            if($file->isFile())
-                $fileCUF = new FileCUF();
-            var_dump("nicolas",$fileCUF);
-                
-                $fileCUF->setName($file->getFilename());
-                $fileCUF->setFolder($file->getPath());
-                $fileCUF->setSrc($file->getPathname());
-                $fileCUF->setType($file->getType());
-                $fileCUF->setSize($file->getSize());
-
-                $files[]=$fileCUF;
-
+            if ($file->isFile()) {
+                $fileCuf = new FileCUF();
+                $fileCuf->setName($file->getFilename());
+                $fileCuf->setPath($file->getPath());
+                $fileCuf->setSrc($file->getPathname());
+                $fileCuf->setType(mime_content_type($file->getPathname()));
+                $fileCuf->setSize($file->getSize());
+                $files[] = $fileCuf;
+            }
         }
 
         return $files;

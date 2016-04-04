@@ -8,13 +8,13 @@ class StatusBackupCUF implements JsonSerializable
 
 
 /*
-* -4 backup id folder can not be delete
-* -3 => can not be delete backup folder
+* -4 backup id path can not be delete
+* -3 => can not be delete backup path
 * -2 => status unknow
-*  0 => backup folder not exists
-*  1 => backup folder exist
-*  2 => moved to upload folder (restore option)
-*  3 => backup id folder have been deleted
+*  0 => backup path not exists
+*  1 => backup path exist
+*  2 => moved to upload path (restore option)
+*  3 => backup id path have been deleted
 *  4 => Restoring...
 *  5 => Deleting...
 *  6 => Restored and deleted
