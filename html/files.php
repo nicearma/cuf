@@ -2,9 +2,10 @@
 
     <select ng-change="scanPathDir()" ng-model="pathDir" ng-options="dir for dir in directories.data"></select>
 
-    <span ng-if="_.isUndefined(pathDir)&&files.length==0"><?php _e("Any file was found in this folder",'cuf') ?></span>
+    <span ng-if="_.isUndefined(pathDir)&&files.data.length==0"><?php _e("Any file was found in this folder",'cuf') ?></span>
 
-    <table ng-if="files.length>0">
+    {{files}}
+    <table ng-if="files.data.length>0">
         <thead>
         <tr>
             <th>Name</th>

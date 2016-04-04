@@ -174,6 +174,10 @@ if (is_admin()) {
         include_once 'php/model/RestResponseCUF.php';
     }
 
+    if (!class_exists('FileCUF')) {
+        include_once 'php/model/FileCUF.php';
+    }
+
     if (!class_exists('HelperCUF')) {
         include_once 'php/helpers/HelperCUF.php';
     }
@@ -184,9 +188,7 @@ if (is_admin()) {
 	if (!class_exists('DatabaseCUF')) {
         include_once 'php/model/DatabaseCUF.php';
     }
-	if (!class_exists('FileCUF')) {
-        include_once 'php/model/FileCUF.php';
-    }
+	
 	if (!class_exists('StatusBackupCUF')) {
         include_once 'php/model/StatusBackupCUF.php';
     }

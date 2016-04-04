@@ -6,7 +6,7 @@ angular.module('cufPlugin')
         function ($scope, $rootScope,FilesResource) {
 
         	$scope.directories=[];
-            $scope.files=[];
+            $scope.files={data:[]};
 
       		$rootScope.$on('tabFiles', function () {
                 $scope.directories = FilesResource.getAllDirectories();

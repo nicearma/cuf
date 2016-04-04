@@ -62,7 +62,8 @@ class HelperCUF
 
         foreach ($iter as $file) {
             if($file->isFile())
-                $fileCUF= new FileCUF();
+                $fileCUF = new FileCUF();
+            var_dump("nicolas",$fileCUF);
                 
                 $fileCUF->setName($file->getFilename());
                 $fileCUF->setFolder($file->getPath());
