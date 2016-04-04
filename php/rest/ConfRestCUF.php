@@ -96,20 +96,20 @@ function cuf_have_wc_options()
 
 /*####################################################################*/
 
-add_action('wp_ajax_cuf_get_directories_file', 'cuf_get_directories_file');
+add_action('wp_ajax_cuf_all_directories_file', 'cuf_all_directories_file');
 
-function cuf_get_directories_files()
+function cuf_all_directories_file()
 {
     $filesRest = new FileRestCUF();
     $filesRest->getAllDirectories();
 }
 
-add_action('wp_ajax_cuf_get_directory_from_directory_file', 'cuf_get_directory_from_directory_file');
+add_action('wp_ajax_cuf_get_directories_from_directory_file', 'cuf_get_directories_from_directory_file');
 
-function cuf_get_directory_from_directory_file()
+function cuf_get_directories_from_directory_file()
 {
     $filesRest = new FileRestCUF();
-    $filesRest->getAllDirectoryFromDirectory();
+    $filesRest->getAllDirectoriesFromDirectory();
 }
 
 add_action('wp_ajax_cuf_get_files_from_directory_file', 'cuf_get_files_from_directory_file');

@@ -26,7 +26,7 @@ angular.module('cufPlugin').factory('OptionsResource',
                     haveWC:{
                         method:'GET',
                         params: {
-                            action: 'cuf_pro_have_wc_options'
+                            action: 'cuf_have_wc_options'
                         }
                     }
 

@@ -28,29 +28,26 @@ class HelperCUF
             }
         }
 
+
         return $paths;
     }
 
     public function getDirsFromDir($dirBase)
     {
 
-        $recursiveDir = new RecursiveDirectoryIterator($dirBase, RecursiveDirectoryIterator::SKIP_DOTS);
+        $dirIterator = new DirectoryIterator($dirBase);
 
-        $iter = new RecursiveIteratorIterator(
-            $recursiveDir,
-            RecursiveIteratorIterator::SELF_FIRST,
-            RecursiveIteratorIterator::CATCH_GET_CHILD
-        );
+        $iter = new IteratorIterator($dirIterator);
 
-        $paths = array($dirBase);
+        $dirs = array();
 
-        foreach ($iter as $path => $dir) {
-            if ($dir->isDir()) {
-                $paths[] = $path;
-            }
+        foreach ($iter as $file) {
+            if(!$file->isFile()&&!$file->isDot())
+                $dirs[]=$file->getFilename();
+
         }
 
-        return $paths;
+        return $dirs;
     }
 
 
@@ -61,15 +58,15 @@ class HelperCUF
 
         $iter = new IteratorIterator($dirIterator);
 
-        $paths = array();
+        $files = array();
 
-        foreach ($iter as $path => $dir) {
-            if (!$dir->isDir()) {
-                $paths[] = $path;
-            }
+        foreach ($iter as $file) {
+            if($file->isFile())
+                $files[]=$file->getFilename();
+
         }
 
-        return $paths;
+        return $files;
     }
 
     public function fileExist($src)
@@ -113,7 +110,8 @@ class HelperCUF
 
     public function generateResponseOk($data)
     {
-        json_encode(new RestResponseCuf($data));
+        echo json_encode(new RestResponseCuf($data));
+        wp_die();
     }
 
     public function getObjectFromJson()

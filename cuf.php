@@ -37,13 +37,13 @@ function CUF_admin_js()
 
     //resources
     wp_register_script('cuf-options-resource', plugins_url('js/resource/options-resource.js', __FILE__), array('cuf-angular-resource'));
-    wp_register_script('cuf-files-resource', plugins_url('js/resource/images-resource.js', __FILE__), array('cuf-angular-resource'));
+    wp_register_script('cuf-files-resource', plugins_url('js/resource/files-resource.js', __FILE__), array('cuf-angular-resource'));
     wp_register_script('cuf-backup-resource', plugins_url('js/resource/backup-resource.js', __FILE__), array('cuf-angular-resource'));
 
     //controller
     wp_register_script('cuf-cuf-ctrl', plugins_url('js/ctrl/cuf-ctrl.js', __FILE__), array('cuf-angular'));
     wp_register_script('cuf-options-ctrl', plugins_url('js/ctrl/options-ctrl.js', __FILE__), array('cuf-options-resource'));
-    wp_register_script('cuf-files-ctrl', plugins_url('js/ctrl/images-ctrl.js', __FILE__), array('cuf-files-resource'));
+    wp_register_script('cuf-files-ctrl', plugins_url('js/ctrl/files-ctrl.js', __FILE__), array('cuf-files-resource'));
     wp_register_script('cuf-backup-ctrl', plugins_url('js/ctrl/backup-ctrl.js', __FILE__), array('cuf-backup-resource'));
 	wp_register_script('cuf-log-ctrl', plugins_url('js/ctrl/log-ctrl.js', __FILE__), array('cuf-cuf-ctrl'));
 

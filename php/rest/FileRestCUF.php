@@ -19,7 +19,7 @@ class FileRestCUF extends BasicRestCUF
 
     }
 
-    public function getAllDirectoryFromDirectory(){
+    public function getAllDirectoriesFromDirectory(){
        // $json=$this->helpCUF->getObjectFromJson();
         $dirs=  $this->helpCUF->getDirsFromDir($this->helpCUF->uploadDir());
         $this->helpCUF->generateResponseOk($dirs);

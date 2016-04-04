@@ -6,10 +6,20 @@ angular.module('cufPlugin')
         function ($scope, $rootScope,FilesResource) {
 
         	$scope.directories=[];
- 
-  			$rootScope.$on('tabFiles', function () {
-              $scope.directories= FilesResource.getAllDirectories();
+            $scope.files=[];
+
+      		$rootScope.$on('tabFiles', function () {
+                $scope.directories = FilesResource.getAllDirectories();
+
             });
 
+
+            $scope.scanPathDir=function(){
+                console.log($scope.pathDir);
+                if(!_.isUndefined($scope.pathDir)&&$scope.pathDir!=""){
+                  $scope.files=FilesResource.getFilesFromDirectory($scope.pathDir);
+                }
+
+            }
         }]
 );

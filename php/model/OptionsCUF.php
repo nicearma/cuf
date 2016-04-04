@@ -30,7 +30,8 @@ class OptionsCUF implements JsonSerializable
         $this->version = "2.0";
         $this->updateInServer = true;
         //default active if the backup folder exist
-        $this->backup = HelperCUF::backupFolderExist();
+        $helper= new HelperCUF();
+        $this->backup =$helper->backupFolderExist();
         $this->admin = true;
         $this->ignoreFolder = array();
         $this->showUsedImage=false;

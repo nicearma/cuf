@@ -9,24 +9,21 @@
 class BackupRestCUF  extends BasicRestCUF
 {
 
+
+
     function __construct()
     {
+
         parent::__construct();
+
     }
 
     public function readAll()
     {
-        echo json_encode(HelperCUF::scanDir(HelperCUF::backupDir()), JSON_FORCE_OBJECT);
+        echo json_encode($this->helpCUF->getFilesFromFolder($this->helpCUF->backupDir()), JSON_FORCE_OBJECT);
         wp_die();
     }
 
-    public function deleteAll()
-    {
-        //TODO: complete this option
-        @rmdir(HelperCUF::backupDir());
-        clearstatcache();
-        BackupRestCUF::makeBackupFolder();
-    }
 
     public function deleteFileByDirAndName()
     {
@@ -39,9 +36,9 @@ class BackupRestCUF  extends BasicRestCUF
         }
 
         $statusBackup = new StatusBackupCUF();
-        $backupDir = HelperCUF::backupDir();
+        $backupDir = $this->helpCUF->backupDir();
         $backupIdPath = $backupDir . '/' . $backupId . '/';
-        $backFiles = HelperCUF::scanDir($backupIdPath, 1);
+        $backFiles =$this->helpCUF->getFilesFromFolder($backupIdPath);
         foreach ($backFiles as $file) {
             @unlink($backupIdPath . $file);
         }
@@ -80,7 +77,7 @@ class BackupRestCUF  extends BasicRestCUF
 
         $imageCUF = ConvertWordpressToCUF::convertIdToImageCUF($imageId);
 
-        $backupDir = HelperCUF::backupDir();
+        $backupDir = $this->helpCUF->backupDir();
         $uploadDir = wp_upload_dir();
         $basedir = $uploadDir['basedir'];
 
@@ -160,8 +157,8 @@ class BackupRestCUF  extends BasicRestCUF
 
         $statusBackup = new StatusBackupCUF();
 
-        $backupDir = HelperCUF::backupDir();
-        $backFiles = HelperCUF::scanDir($backupDir . '/' . $backupId . '/', 1);
+        $backupDir =$this->helpCUF->backupDir();
+        $backFiles = $this->helpCUF->getFilesFromFolder($backupDir . '/' . $backupId . '/');
         $fileImages = preg_grep("/^(?!.*\\.backup)/", $backFiles);
         $fileBackup = preg_grep("/^(.*\\.backup)/", $backFiles);
         $fileBackupFile = $backupDir . '/' . $backupId . '/' . array_pop($fileBackup);
@@ -192,10 +189,10 @@ class BackupRestCUF  extends BasicRestCUF
     }
 
 
-    public static function  makeBackupFolder()
+    public function  makeBackupFolder()
     {
         $statusBackup = new StatusBackupCUF();
-        $backupDir = HelperCUF::backupDir();
+        $backupDir = $this->helpCUF->backupDir();
         if (!file_exists($backupDir)) {
             mkdir($backupDir, 0755, true);
             if (!file_exists($backupDir)) {
@@ -208,11 +205,11 @@ class BackupRestCUF  extends BasicRestCUF
         wp_die();
     }
 
-    public static function  existsBackupFolder()
+    public function  existsBackupFolder()
     {
         $statusBackup = new StatusBackupCUF();
 
-        if (HelperCUF::backupFolderExist()) {
+        if ($this->helpCUF->backupFolderExist()) {
             $statusBackup->setInServer(1); // 1 -> exists
         } else {
             $statusBackup->setInServer(0); // 0 -> not exists

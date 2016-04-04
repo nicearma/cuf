@@ -8,19 +8,19 @@ angular.module('cufPlugin').factory('FilesResource',
                     getAllDirectories: {
                         method: 'POST',
                         params: {
-                            action: 'cuf_all_directories'
+                            action: 'cuf_all_directories_file'
                         }
                     },
                     getDirectoriesFromDirectory: {
                         method: 'POST',
                         params: {
-                            action: 'cuf_directories_from_directory'
+                            action: 'cuf_get_directories_from_directory_file'
                         }
                     },
 		            getFilesFromDirectory: {
                         method: 'POST',
                         params: {
-                            action: 'cuf_files_from_directory'
+                            action: 'cuf_get_files_from_directory_file'
                         }
                     },
                     deleteFileFromDirectory:{

@@ -9,7 +9,7 @@ angular.module('cufPlugin')
             $scope.wc={active:-1};
             //go to tabImage
  			$scope.wc=OptionsResource.haveWC();
-            $scope.tabImages=function(){
+            $scope.tabFiles=function(){
                 $rootScope.$broadcast('tabFiles', $scope.options);
             };
             //go to tabBackup
