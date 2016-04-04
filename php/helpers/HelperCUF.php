@@ -62,7 +62,15 @@ class HelperCUF
 
         foreach ($iter as $file) {
             if($file->isFile())
-                $files[]=$file->getFilename();
+                $fileCUF= new FileCUF();
+                
+                $fileCUF->setName($file->getFilename());
+                $fileCUF->setFolder($file->getPath());
+                $fileCUF->setSrc($file->getPathname());
+                $fileCUF->setType($file->getType());
+                $fileCUF->setSize($file->getSize());
+
+                $files[]=$fileCUF;
 
         }
 

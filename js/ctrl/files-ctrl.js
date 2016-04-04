@@ -15,7 +15,7 @@ angular.module('cufPlugin')
 
 
             $scope.scanPathDir=function(){
-                console.log($scope.pathDir);
+                
                 if(!_.isUndefined($scope.pathDir)&&$scope.pathDir!=""){
                   $scope.files=FilesResource.getFilesFromDirectory($scope.pathDir);
                 }

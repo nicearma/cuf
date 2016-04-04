@@ -13,6 +13,7 @@ class FileCUF implements JsonSerializable
     public $status;
     public $folder;
     public $src; //the origina src
+    public $size;
     public $type;
 
     function __construct()
@@ -99,6 +100,24 @@ class FileCUF implements JsonSerializable
     {
         $this->src = $src;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param mixed $size
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
 
     /**
      * @return mixed
