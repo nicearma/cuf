@@ -26,8 +26,47 @@ class FileRestCUF extends BasicRestCUF
     }
 
     public function getFilesFromDirectory(){
-        $files=$this->helpCUF->getFilesFromFolder($this->helpCUF->uploadDir());
+        //TODO: add security
+        $jPath=$this->helpCUF->getObjectFromJson();
+        if(!empty($jPath['path'])){
+            $files=$this->helpCUF->getFilesFromFolder($jPath['path']);
         $this->helpCUF->generateResponseOk($files);
+    }else{
+        //TODO: empty path
+    }
+
+        
+    }
+
+    public function verifyFile(){
+        $jSrc=$this->helpCUF->getObjectFromJson();
+        //security 
+      if(file_exists($jSrc->src)){
+        $uploadDir= $this->helpCUF->uploadDir();
+        //TODO: verify if the file is in the upload dir
+        if(true){
+          $checkers= new CheckersCUF();
+          $statusCUF= new statusCUF();
+          $checkerAttach= new CheckerSpecialImageAttachCUF();
+         
+          if($checkers->verify($jSrc->src, $this->optionsCUF)){
+            $statusCUF->setUsed(StatusUsedCUF::$USED);
+          }else{
+            $statusCUF->setUsed(StatusUsedCUF::$UNUSED);
+          }
+          
+          $resultCheckerAttach=$checkerAttach->verify($jSrc->src, $this->optionsCUF);
+
+          if(!empty($result)&&count($result)>0){
+             $statusCUF->setAttach(StatusAttachCUF::$ATTACH);
+          }else{
+             $statusCUF->setAttach(StatusAttachCUF::$UNATTACH);
+          }
+        }
+
+
+      } 
+
     }
 
     public function deleteFile(){

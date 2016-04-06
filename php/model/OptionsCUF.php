@@ -13,6 +13,7 @@ class OptionsCUF implements JsonSerializable
     public $backup;
     public $admin;
     public $ignoreFolder;
+    public $ignoreExtension;
     public $showUsedImage;
     
     public $galleryCheck;
@@ -33,7 +34,8 @@ class OptionsCUF implements JsonSerializable
         $helper= new HelperCUF();
         $this->backup =$helper->backupFolderExist();
         $this->admin = true;
-        $this->ignoreFolder = array();
+        $this->ignoreExtension=array(".htaccess");
+        $this->ignoreFolder = array("dnui");
         $this->showUsedImage=false;
 
         $this->galleryCheck = true;

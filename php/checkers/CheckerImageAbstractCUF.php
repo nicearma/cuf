@@ -17,7 +17,7 @@ abstract class CheckerImageAbstractCUF {
     }
 
 
-    abstract function checkImage($id,$src,$optionCUF);
+    abstract function checkImage($src,$optionCUF);
 
 
 }

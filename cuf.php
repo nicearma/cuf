@@ -196,6 +196,16 @@ if (is_admin()) {
         include_once 'php/model/StatusCUF.php';
     }
 
+    if (!class_exists('StatusAttachCUF')) {
+        include_once 'php/model/StatusAttachCUF.php';
+    }
+    if (!class_exists('StatusUsedCUF')) {
+        include_once 'php/model/StatusUsedCUF.php';
+    }
+    if (!class_exists('StatusInServerCUF')) {
+        include_once 'php/model/StatusInServerCUF.php';
+    }
+
 
     if (!class_exists('ConvertJsonToSavePHP')) {
         include_once 'php/converters/ConvertJsonToSavePHP.php';

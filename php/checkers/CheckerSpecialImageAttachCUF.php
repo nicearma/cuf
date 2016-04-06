@@ -1,13 +1,23 @@
 <?php
+
 /**
  *
  * @author nicearma
  */
-class CheckerImagePostMetaCUF extends CheckerImageAbstractCUF{
+ class CheckerSpecialImageAttachCUF {
 
+    protected $databaseCUF;
+    protected $checkersCUF;
 
-    function checkImage($src, $optionCUF)
+    function __construct($databaseCUF, $checkersCUF)
     {
+        $this->databaseCUF = $databaseCUF;
+        $this->checkersCUF=$checkersCUF;
+        
+    }
+
+    //TODO: change this for attach
+    function checkAttach($src,$optionCUF){
 
     	if ($optionCUF->isPostMetaCheck()) {
        
@@ -17,9 +27,8 @@ class CheckerImagePostMetaCUF extends CheckerImageAbstractCUF{
 		}
 
 		return array();
-    
+
     }
 
 
 }
-

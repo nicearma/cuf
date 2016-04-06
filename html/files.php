@@ -13,6 +13,7 @@
             <th class="manage-column column-title">Path</th>
             <th class="manage-column column-title">Attached</th>
             <th class="manage-column column-title">Used</th>
+            <th class="manage-column column-title">InServer</th>
             <th class="manage-column column-title">Action</th>
         </tr>
         </thead>
@@ -22,9 +23,21 @@
                 <td>{{file.size}}</td>
                 <td>{{file.type}}</td>
                 <td>{{file.path}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>
+                    <span ng-if="file.status.attach==-1">UNKNOWN</span>
+                    <!-- <span ng-if="file.status.attach=="></span> -->
+                </td>
+                <td>
+                    <span ng-if="file.status.used==-1">UNKNOWN</span>
+                   <!-- <span ng-if="file.status.used=="></span>-->
+                </td>
+                <td>
+                       <span ng-if="file.status.inServer==-1">UNKNOWN</span>
+                   <!-- <span ng-if="file.status.inServer=="></span>-->
+                </td>
+                <td>
+
+                </td>
             </tr>
         </tbody>
 

@@ -6,7 +6,7 @@ angular.module('cufPlugin')
         function ($scope, $rootScope, OptionsResource, BackupResource,logFactoroy) {
 
             var inutilCallOptions = true;
-            var inutilCallNumberPage = true;
+            
 
             OptionsResource.get().$promise.then(function (options) {
                 $scope.options = options;

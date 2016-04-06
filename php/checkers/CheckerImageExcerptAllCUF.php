@@ -7,7 +7,7 @@
 class CheckerImageExcerptAllCUF extends CheckerImageAbstractCUF
 {
 
-    function checkImage($id, $src, $optionCUF)
+    function checkImage($src, $optionCUF)
     {
 
     	if ($optionCUF->isExcerptCheck()) {

@@ -61,6 +61,7 @@ class HelperCUF
         $files = array();
 
         foreach ($iter as $file) {
+             
             if ($file->isFile()) {
                 $fileCuf = new FileCUF();
                 $fileCuf->setName($file->getFilename());
@@ -68,7 +69,10 @@ class HelperCUF
                 $fileCuf->setSrc($file->getPathname());
                 $fileCuf->setType(mime_content_type($file->getPathname()));
                 $fileCuf->setSize($file->getSize());
+                $fileCuf->status= new StatusCUF();
+                $fileCuf->status->inServer=StatusInServerCUF::$INSERVER;
                 $files[] = $fileCuf;
+
             }
         }
 
