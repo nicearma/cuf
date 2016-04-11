@@ -124,8 +124,8 @@ function cuf_get_files_from_directory_file()
 
 add_action('wp_ajax_cuf_verify_file', 'cuf_verify_file');
 
-function cuf_get_files_from_directory_file()
+function cuf_verify_file()
 {
     $filesRest = new FileRestCUF();
-    $filesRest->getFilesFromDirectory();
+    $filesRest->verifyFile();
 }

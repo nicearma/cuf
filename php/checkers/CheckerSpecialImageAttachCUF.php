@@ -7,17 +7,15 @@
  class CheckerSpecialImageAttachCUF {
 
     protected $databaseCUF;
-    protected $checkersCUF;
 
-    function __construct($databaseCUF, $checkersCUF)
+    function __construct($databaseCUF)
     {
         $this->databaseCUF = $databaseCUF;
-        $this->checkersCUF=$checkersCUF;
-        
+      
     }
 
     //TODO: change this for attach
-    function checkAttach($src,$optionCUF){
+    function verify($src,$optionCUF){
 
     	if ($optionCUF->isPostMetaCheck()) {
        

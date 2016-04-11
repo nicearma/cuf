@@ -40,22 +40,26 @@ class FileRestCUF extends BasicRestCUF
 
     public function verifyFile(){
         $jSrc=$this->helpCUF->getObjectFromJson();
+        
         //security 
-      if(file_exists($jSrc->src)){
+      if(file_exists($jSrc['src'])){
         $uploadDir= $this->helpCUF->uploadDir();
         //TODO: verify if the file is in the upload dir
         if(true){
-          $checkers= new CheckersCUF();
           $statusCUF= new statusCUF();
-          $checkerAttach= new CheckerSpecialImageAttachCUF();
+          $statusCUF->setInServer(StatusInServerCUF::$INSERVER);
+
+          $checkers= new CheckersCUF($this->databaseCUF);
+          $checkerAttach= new CheckerSpecialImageAttachCUF($this->databaseCUF);
+          
          
-          if($checkers->verify($jSrc->src, $this->optionsCUF)){
+          if($checkers->verify($jSrc['src'], $this->optionsCUF)){
             $statusCUF->setUsed(StatusUsedCUF::$USED);
           }else{
             $statusCUF->setUsed(StatusUsedCUF::$UNUSED);
           }
           
-          $resultCheckerAttach=$checkerAttach->verify($jSrc->src, $this->optionsCUF);
+          $resultCheckerAttach=$checkerAttach->verify($jSrc['src'], $this->optionsCUF);
 
           if(!empty($result)&&count($result)>0){
              $statusCUF->setAttach(StatusAttachCUF::$ATTACH);
@@ -64,6 +68,9 @@ class FileRestCUF extends BasicRestCUF
           }
         }
 
+        $this->helpCUF->generateResponseOk($statusCUF);
+
+      }else{
 
       } 
 

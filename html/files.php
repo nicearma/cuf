@@ -1,6 +1,11 @@
 <div id="filesCUF" ng-controller="FilesCtrl">
+ {{directories.data.base}}
+    <select ng-change="scanPathDir()" ng-model="pathDir" >
+        <options ng-repeat="dirs in directories.data.dirs">
+            {{directories.data.base}}{{dirs}}
+        </options>
 
-    <select ng-change="scanPathDir()" ng-model="pathDir" ng-options="dir for dir in directories.data"></select>
+    </select>
 
     <span ng-if="_.isUndefined(pathDir)&&files.data.length==0"><?php _e("Any file was found in this path",'cuf') ?></span>
 

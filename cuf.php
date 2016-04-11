@@ -238,20 +238,14 @@ if (is_admin()) {
     if (!class_exists('CheckerImageExcerptAllCUF')) {
         include_once 'php/checkers/CheckerImageExcerptAllCUF.php';
     }
-    if (!class_exists('CheckerImageExcerptBestLuckCUF')) {
-        include_once 'php/checkers/CheckerImageExcerptBestLuckCUF.php';
-    }
     if (!class_exists('CheckerImagePostAndPageAllCUF')) {
         include_once 'php/checkers/CheckerImagePostAndPageAllCUF.php';
     }
-    if (!class_exists('CheckerImagePostAndPageBestLuckCUF')) {
-        include_once 'php/checkers/CheckerImagePostAndPageBestLuckCUF.php';
-    }
     if (!class_exists('CheckerImagePostMetaCUF')) {
         include_once 'php/checkers/CheckerImagePostMetaCUF.php';
     }
-    if (!class_exists('CheckerImagePostMetaCUF')) {
-        include_once 'php/checkers/CheckerImagePostMetaCUF.php';
+    if (!class_exists('CheckerSpecialImageAttachCUF')) {
+        include_once 'php/checkers/CheckerSpecialImageAttachCUF.php';
     }
     if (!class_exists('CheckersCUF')) {
         include_once 'php/checkers/CheckersCUF.php';

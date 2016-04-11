@@ -20,14 +20,15 @@ class HelperCUF
             RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
-        $paths = array($dirBase);
+        $paths = array('base'=>$dirBase);
 
         foreach ($iter as $path => $dir) {
             if ($dir->isDir()) {
-                $paths[] = $path;
+                $paths["dirs"][] = str_replace($dirBase, "", $path);
             }
         }
 
+       
 
         return $paths;
     }
