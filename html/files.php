@@ -1,15 +1,12 @@
 <div id="filesCUF" ng-controller="FilesCtrl">
- {{directories.data.base}}
-    <select ng-change="scanPathDir()" ng-model="pathDir" >
-        <options ng-repeat="dirs in directories.data.dirs">
-            {{directories.data.base}}{{dirs}}
-        </options>
+
+    <select ng-change="scanPathDir()"  ng-options="dir for dir in dirs" ng-model="pathDir" >
 
     </select>
 
-    <span ng-if="_.isUndefined(pathDir)&&files.data.length==0"><?php _e("Any file was found in this path",'cuf') ?></span>
+    <span ng-if="!_.isUndefined(pathDir)&&files.length==0"><?php _e("Any file was found in this path",'cuf') ?></span>
 
-    <table ng-if="files.data.length>0"  class="wp-list-table widefat fixed">
+    <table ng-if="files.length>0"  class="wp-list-table widefat fixed">
         <thead>
         <tr>
             <th class="manage-column column-title">Name</th>
@@ -23,21 +20,21 @@
         </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="file in files.data">
+            <tr ng-repeat="file in files">
                 <td>{{file.name}}</td>
                 <td>{{file.size}}</td>
                 <td>{{file.type}}</td>
                 <td>{{file.path}}</td>
                 <td>
-                    <span ng-if="file.status.attach==-1">UNKNOWN</span>
+                    <span ng-if="file.status.attach==status.ATTACH.UNKNOWN">UNKNOWN</span>
                     <!-- <span ng-if="file.status.attach=="></span> -->
                 </td>
                 <td>
-                    <span ng-if="file.status.used==-1">UNKNOWN</span>
+                    <span ng-if="file.status.used==status.USED.UNKNOWN">UNKNOWN</span>
                    <!-- <span ng-if="file.status.used=="></span>-->
                 </td>
                 <td>
-                       <span ng-if="file.status.inServer==-1">UNKNOWN</span>
+                       <span ng-if="file.status.inServer==status.IN_SERVER.UNKNOWN">UNKNOWN</span>
                    <!-- <span ng-if="file.status.inServer=="></span>-->
                 </td>
                 <td>

@@ -2,14 +2,19 @@
 
 
 angular.module('cufPlugin')
-    .controller('FilesCtrl', ['$scope', '$rootScope','FilesResource',
-        function ($scope, $rootScope,FilesResource) {
+    .controller('FilesCtrl', ['$scope', '$rootScope','FilesResource','STATUS',
+        function ($scope, $rootScope,FilesResource,STATUS) {
 
-        	$scope.directories=[];
-            $scope.files={data:{base:'',dirs:[]}};
-
+        	$scope.base='';
+            $scope.base=[];
+            $scope.files={data:{}};
+            
       		$rootScope.$on('tabFiles', function () {
-                $scope.directories = FilesResource.getAllDirectories();
+                $scope.directories = FilesResource.getAllDirectories().$promise.then(function(resultDirs){
+                     $scope.base =resultDirs.data.base;
+                     $scope.dirs=resultDirs.data.dirs;
+                    
+                });
 
             });
 
@@ -19,11 +24,11 @@ angular.module('cufPlugin')
                 if(!_.isUndefined($scope.pathDir)&&$scope.pathDir!=""){
                     
                   FilesResource.getFilesFromDirectory({path:$scope.pathDir}).$promise.then(function(resultFiles){
-                    $scope.files=resultFiles;
+                    $scope.files=resultFiles.data;
                     if(!_.isUndefined(resultFiles.data)){
 
                         angular.forEach(resultFiles.data,function(file){
-                            FilesResource.verifyFile({path:$scope.pathDir,src:file.src}).$promise.then(function(resultVerify){
+                            FilesResource.verifyFile({path:$scope.pathDir,name:file.name}).$promise.then(function(resultVerify){
                                file.status= resultVerify.data.status;
                             });
                         });

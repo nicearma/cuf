@@ -9,77 +9,6 @@ class HelperCUF
 {
 
 
-    public function getAllDirs($dirBase)
-    {
-
-        $recursiveDir = new RecursiveDirectoryIterator($dirBase, RecursiveDirectoryIterator::SKIP_DOTS);
-
-        $iter = new RecursiveIteratorIterator(
-            $recursiveDir,
-            RecursiveIteratorIterator::SELF_FIRST,
-            RecursiveIteratorIterator::CATCH_GET_CHILD
-        );
-
-        $paths = array('base'=>$dirBase);
-
-        foreach ($iter as $path => $dir) {
-            if ($dir->isDir()) {
-                $paths["dirs"][] = str_replace($dirBase, "", $path);
-            }
-        }
-
-       
-
-        return $paths;
-    }
-
-    public function getDirsFromDir($dirBase)
-    {
-
-        $dirIterator = new DirectoryIterator($dirBase);
-
-        $iter = new IteratorIterator($dirIterator);
-
-        $dirs = array();
-
-        foreach ($iter as $file) {
-            if (!$file->isFile() && !$file->isDot())
-                $dirs[] = $file->getFilename();
-
-        }
-
-        return $dirs;
-    }
-
-
-    public function getFilesFromFolder($dirBase)
-    {
-
-        $dirIterator = new DirectoryIterator($dirBase);
-
-        $iter = new IteratorIterator($dirIterator);
-
-        $files = array();
-
-        foreach ($iter as $file) {
-             
-            if ($file->isFile()) {
-                $fileCuf = new FileCUF();
-                $fileCuf->setName($file->getFilename());
-                $fileCuf->setPath($file->getPath());
-                $fileCuf->setSrc($file->getPathname());
-                $fileCuf->setType(mime_content_type($file->getPathname()));
-                $fileCuf->setSize($file->getSize());
-                $fileCuf->status= new StatusCUF();
-                $fileCuf->status->inServer=StatusInServerCUF::$INSERVER;
-                $files[] = $fileCuf;
-
-            }
-        }
-
-        return $files;
-    }
-
     public function fileExist($src)
     {
         $uploadDir = wp_upload_dir();
@@ -122,6 +51,12 @@ class HelperCUF
     public function generateResponseOk($data)
     {
         echo json_encode(new RestResponseCuf($data));
+        wp_die();
+    }
+
+    public function generateResponseBad($data)
+    {
+        echo json_encode(new RestResponseCuf($data),400);
         wp_die();
     }
 

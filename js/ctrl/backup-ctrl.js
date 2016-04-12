@@ -11,7 +11,6 @@ angular.module('cufPlugin')
             $scope.backups = [];
 
 
-
             $rootScope.$on('tabBackups', function () {
                 $scope.backups = [];
                 //calling server

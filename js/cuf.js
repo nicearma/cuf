@@ -109,5 +109,34 @@ angular
 
         $httpProvider.interceptors.push('myHttpInterceptor');
 
-    }]);
+    }])
+.constant('STATUS',{
+        ATTACH:{
+            ERROR:-2,
+            UNKNOWN:-1,
+            UNATTACH:0,
+            ATTACH:1,
+            BACKUP_ATTACH:2,
+            DELETED_ATTACH:3
+            ASKING:99
+        },
+        IN_SERVER:{
+            ERROR:-2,
+            UNKNOWN:-1,
+            NOT_INSERVER:0,
+            INSERVER:1,
+            ASKING:99
+        },
+        USED:{
+            ERROR:-2,
+            UNKNOWN:-1,
+            UNUSED:0,
+            USED:1,
+            ASKING:99
+        }
+
+        });
+
+
+   
 
