@@ -117,7 +117,7 @@ angular
             UNATTACH:0,
             ATTACH:1,
             BACKUP_ATTACH:2,
-            DELETED_ATTACH:3
+            DELETED_ATTACH:3,
             ASKING:99
         },
         IN_SERVER:{

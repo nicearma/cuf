@@ -9,14 +9,14 @@
     <table ng-if="files.length>0"  class="wp-list-table widefat fixed">
         <thead>
         <tr>
-            <th class="manage-column column-title">Name</th>
-            <th class="manage-column column-title">Size</th>
-            <th class="manage-column column-title">Type</th>
-            <th class="manage-column column-title">Path</th>
-            <th class="manage-column column-title">Attached</th>
-            <th class="manage-column column-title">Used</th>
-            <th class="manage-column column-title">InServer</th>
-            <th class="manage-column column-title">Action</th>
+            <th class="manage-column column-title"><?php _e('Name', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('Size', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('Type', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('Path', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('Attached', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('Used', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('InServer', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('Action', 'cuf'); ?></th>
         </tr>
         </thead>
         <tbody>
@@ -26,16 +26,19 @@
                 <td>{{file.type}}</td>
                 <td>{{file.path}}</td>
                 <td>
-                    <span ng-if="file.status.attach==status.ATTACH.UNKNOWN">UNKNOWN</span>
-                    <!-- <span ng-if="file.status.attach=="></span> -->
+                    <span ng-if="file.status.attach==status.ATTACH.UNKNOWN"><?php _e('unknown', 'cuf'); ?></span>
+                    <span ng-if="file.status.attach==status.ATTACH.ASKING"><?php _e('asking...', 'cuf'); ?></span>
+            
                 </td>
                 <td>
-                    <span ng-if="file.status.used==status.USED.UNKNOWN">UNKNOWN</span>
-                   <!-- <span ng-if="file.status.used=="></span>-->
+                    <span ng-if="file.status.used==status.USED.UNKNOWN"><?php _e('unknown', 'cuf'); ?></span>
+                    <span ng-if="file.status.used==status.USED.ASKING"><?php _e('asking...', 'cuf'); ?></span>
+                   
                 </td>
                 <td>
-                       <span ng-if="file.status.inServer==status.IN_SERVER.UNKNOWN">UNKNOWN</span>
-                   <!-- <span ng-if="file.status.inServer=="></span>-->
+                       <span ng-if="file.status.inServer==status.IN_SERVER.UNKNOWN"><?php _e('unknown', 'cuf'); ?></span>
+                   <span ng-if="file.status.inServer==status.IN_SERVER.ASKING"><?php _e('asking...', 'cuf'); ?></span>
+                   
                 </td>
                 <td>
 

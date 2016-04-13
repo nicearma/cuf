@@ -6,74 +6,57 @@
 class ConvertOptionsCUF
 {
 
-//TODO: convert a OptionsCUF
-/*
+    //TODO: end the logic
+
     public static function convertOldTONew($optionsOld)
     {
 
         if (is_array($optionsOld) && array_key_exists('version', $optionsOld)) {
-            if ($optionsOld['version'] == '1.5.2') {
-                $optionsDNUI = ConvertOptionsDNUI::convert1_5to2_0($optionsOld);
+            if ($optionsOld['version'] == '0.1') {
+                $optionsCUF = ConvertOptionsCUF::convert0_1to1_0($optionsOld);
             } else {
-                $optionsDNUI = new OptionsDNUI();
+                $optionsCUF = new OptionsDCUF();
             }
         } else if (empty($optionsOld)) {
-            $optionsDNUI = new OptionsDNUI();
+            $optionsCUF = new OptionsDNUI();
         } else {
-            $optionsDNUI = $optionsOld;
+            $optionsCUF = $optionsOld;
         }
 
-        if ($optionsDNUI->getVersion() != '2.0') {
+        if ($optionsCUF->getVersion() != '1.0') {
             //TODO: nothing for the moment
         }
 
-        return $optionsDNUI;
+        return $optionsCUF;
     }
 
-    public static function convert1_5to2_0($option1_5)
+    public static function convert0_1to1_0($option0_1)
     {
-        $optionDNUI = new OptionsDNUI();
-        $optionDNUI->setNumberPage($option1_5['page']);
-        $optionDNUI->setImageShowInPage($option1_5['cantInPage']);
-        $optionDNUI->setDraftCheck($option1_5['without']);
-        $optionDNUI->setUpdateInServer($option1_5['updateInServer']);
-        $optionDNUI->setOrder($option1_5['order']);
-        $optionDNUI->setShowUsedImage($option1_5['show']);
-        $optionDNUI->setShowIgnoreSizes($option1_5['showIgnore']);
-        $optionDNUI->setAdmin($option1_5['admin']);
-        $optionDNUI->setGalleryCheck($option1_5['galleryCheck']);
-        return $optionDNUI;
+        $optionCUF = new OptionsCUF();
+       
+        return $optionCUF;
 
     }
 
     public static function convertOptionJsonToOptionDNUI($optionJson)
     {
-        $optionsDNUI = new OptionsDNUI();
-        $optionsDNUI->setUpdateInServer($optionJson->updateInServer);
-        $optionsDNUI->setBackup($optionJson->backup);
-        $optionsDNUI->setShowUsedImage($optionJson->showUsedImage);
-        $optionsDNUI->setAdmin($optionJson->admin);
+        $optionsCUF = new OptionsUCF();
+        $optionsCUF->setUpdateInServer($optionJson->updateInServer);
+        $optionsCUF->setBackup($optionJson->backup);
+        $optionsCUF->setAdmin($optionJson->admin);
 
-        if (is_array($optionJson->ignoreSizes)) {
-            $optionsDNUI->setIgnoreSizes($optionJson->ignoreSizes);
-        }
+      
+        $optionsCUF->setGalleryCheck($optionJson->galleryCheck);
+        $optionsCUF->setShortCodeCheck($optionJson->galleryCheck);
+        $optionsCUF->setExcerptCheck($optionJson->excerptCheck);
+        $optionsCUF->setPostMetaCheck($optionJson->postMetaCheck);
+        $optionsCUF->setDraftCheck($optionJson->draftCheck);
+      
+        $optionsCUF->setOrder($optionJson->order);
+ 	$optionsCUF->setDebug($optionJson->debug);
 
-        $optionsDNUI->setShowIgnoreSizes($optionJson->showIgnoreSizes);
-
-        $optionsDNUI->setGalleryCheck($optionJson->galleryCheck);
-        $optionsDNUI->setShortCodeCheck($optionJson->galleryCheck);
-        $optionsDNUI->setExcerptCheck($optionJson->excerptCheck);
-        $optionsDNUI->setPostMetaCheck($optionJson->postMetaCheck);
-        $optionsDNUI->setDraftCheck($optionJson->draftCheck);
-        $optionsDNUI->setNumberPage($optionJson->numberPage);
-        $optionsDNUI->setImageShowInPage($optionJson->imageShowInPage);
-        $optionsDNUI->setOrder($optionJson->order);
- 		$optionsDNUI->setMaxSize($optionJson->maxSize);
-        $optionsDNUI->setDebug($optionJson->debug);
-
-        return $optionsDNUI;
+        return $optionsCUF;
 
     }
-*/
 
 }

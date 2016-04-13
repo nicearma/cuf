@@ -5,6 +5,7 @@ angular.module('cufPlugin')
     .controller('FilesCtrl', ['$scope', '$rootScope','FilesResource','STATUS',
         function ($scope, $rootScope,FilesResource,STATUS) {
 
+            $scope.status=STATUS;
         	$scope.base='';
             $scope.base=[];
             $scope.files={data:{}};
@@ -28,6 +29,8 @@ angular.module('cufPlugin')
                     if(!_.isUndefined(resultFiles.data)){
 
                         angular.forEach(resultFiles.data,function(file){
+                            file.status.inServer=STATUS.USED.ASKING;
+                            file.status.attach=STATUS.ATTACH.ASKING;
                             FilesResource.verifyFile({path:$scope.pathDir,name:file.name}).$promise.then(function(resultVerify){
                                file.status= resultVerify.data.status;
                             });
