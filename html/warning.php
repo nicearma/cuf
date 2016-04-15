@@ -10,7 +10,7 @@
    <b> <a href="https://apps.nicearma.com/product/cuf-clean-upload-folder/"><?php _e("CUF PRO version have some useful features:", 'cuf'); ?></a></b>
     <ol>
         <li><strong><?php _e("Compatibility with WooCommerce",'cuf'); ?></strong> <?php _e("(the main WooCommerce plugin, not other extends plugins)", 'cuf'); ?></li>
-        <li><strong><?php _e("Delete all automatic button,",'cuf'); ?></strong> <?php _e(" this will go page by page and delete all file not used", 'cuf'); ?></li>
+        <li><strong><?php _e("Delete all automatic button,",'cuf'); ?></strong> <?php _e(" this will go folder by folder and delete all file not used", 'cuf'); ?></li>
         <li><?php _e("Restore all backup", 'cuf'); ?></li>
         <li><?php _e("Delete all backup", 'cuf'); ?></li>
     </ol>

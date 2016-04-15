@@ -100,26 +100,28 @@ class FileRestCUF extends BasicRestCUF {
         //security 
         if (file_exists($this->helpCUF->uploadDir().$filePath)) {
 
+            
+            
             $statusCUF = new statusCUF();
             $statusCUF->setInServer(StatusInServerCUF::$INSERVER);
 
             $checkers = new CheckersCUF($this->databaseCUF);
             $checkerAttach = new CheckerSpecialImageAttachCUF($this->databaseCUF);
 
-
             if ($checkers->verify($filePath, $this->optionsCUF)) {
                 $statusCUF->setUsed(StatusUsedCUF::$USED);
             } else {
                 $statusCUF->setUsed(StatusUsedCUF::$UNUSED);
             }
+            
+            $statusCUF->setAttach(StatusAttachCUF::$UNATTACH);
 
-            $resultCheckerAttach = $checkerAttach->verify($filePath, $this->optionsCUF);
-
-            if (!empty($result) && count($result) > 0) {
+            $resultCheckerAttach = $checkerAttach->verify($jSrc['name'], $this->optionsCUF);
+            
+            if (!empty($resultCheckerAttach) && count($resultCheckerAttach) > 0) {
                 $statusCUF->setAttach(StatusAttachCUF::$ATTACH);
-            } else {
-                $statusCUF->setAttach(StatusAttachCUF::$UNATTACH);
-            }
+            } 
+            
 
 
             $this->helpCUF->generateResponseOk($statusCUF);

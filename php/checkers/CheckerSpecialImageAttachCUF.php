@@ -13,13 +13,8 @@ class CheckerSpecialImageAttachCUF {
     }
 
     function verify($src, $optionCUF) {
-
-        if ($optionCUF->isPostMetaCheck()) {
-            $sql = "SELECT post_id FROM " . $this->databaseCUF->getPrefix() . "postmeta WHERE meta_key='_wp_attached_file' and meta_value LIKE '%/$src%'";
-            return $this->databaseCUF->getDb()->get_results($sql, "ARRAY_A");
-        }
-
-        return array();
+        $sql = "SELECT post_id FROM " . $this->databaseCUF->getPrefix() . "postmeta WHERE meta_key in ('_wp_attached_file','_wp_attachment_metadata') and meta_value LIKE '%$src%' limit 0, 1";
+        return $this->databaseCUF->getDb()->get_results($sql, "ARRAY_A");
     }
 
 }

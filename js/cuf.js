@@ -118,6 +118,7 @@ angular
             ATTACH:1,
             BACKUP_ATTACH:2,
             DELETED_ATTACH:3,
+            DELETING_ATTACH:4,
             ASKING:99
         },
         IN_SERVER:{

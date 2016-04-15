@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: CUF (Clean upload path)
+  Plugin Name: CUF (Clean upload folder)
   Version: 1.0
   Plugin URI: https://wordpress.org/plugins/cuf-cleanup-upload-folder/
   Author: Nicearma
@@ -165,12 +165,8 @@ function cuf_load_textdomain() {
 if (is_admin()) {
 
     include_once 'php/php5_3/JsonSerializable.php';
-/*
-	if (!class_exists('ErrorHandlerCUF')) {
-        include_once 'php/model/ErrorHandlerCUF.php';
-    }
-*/
- 	if (!class_exists('RestResponseCUF')) {
+
+    if (!class_exists('RestResponseCUF')) {
         include_once 'php/model/RestResponseCUF.php';
     }
 
@@ -247,6 +243,7 @@ if (is_admin()) {
     if (!class_exists('CheckerSpecialImageAttachCUF')) {
         include_once 'php/checkers/CheckerSpecialImageAttachCUF.php';
     }
+    
     if (!class_exists('CheckersCUF')) {
         include_once 'php/checkers/CheckersCUF.php';
     }
