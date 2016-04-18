@@ -8,11 +8,11 @@ class CheckersCUF
 
     private $checkers = array();
 
-    function __construct($databaseCUF)
+    function __construct($database)
     {
-        new CheckerImagePostMetaCUF($databaseCUF,$this);
-        new CheckerImagePostAndPageAllCUF($databaseCUF,$this);
-        new CheckerImageExcerptAllCUF($databaseCUF,$this);
+        new CheckerImagePostMetaCUF($database,$this);
+        new CheckerImagePostAndPageAllCUF($database,$this);
+        new CheckerImageExcerptAllCUF($database,$this);
     }
 
         public function addChecker($checker)
@@ -20,10 +20,10 @@ class CheckersCUF
         array_push($this->checkers, $checker);
     }
 
-    public function verify($src,$optionCUF){
+    public function verify($src,$option){
 
         for($i=0;$i<count($this->checkers);$i++){
-           $result= call_user_func_array(array($this->checkers[$i], "checkImage"), array($src,$optionCUF));
+           $result= call_user_func_array(array($this->checkers[$i], "checkImage"), array($src,$option));
             if(!empty($result)&&count($result)>0){
                return 1; //is used
             }

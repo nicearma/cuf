@@ -13,7 +13,7 @@ class FileRestCUF extends BasicRestCUF {
 
     public function getAllDirectories() {
 
-        $dirBase = $this->helpCUF->uploadDir();
+        $dirBase = $this->help->uploadDir();
         $recursiveDir = new RecursiveDirectoryIterator($dirBase, RecursiveDirectoryIterator::SKIP_DOTS);
 
         $iter = new RecursiveIteratorIterator(
@@ -30,12 +30,12 @@ class FileRestCUF extends BasicRestCUF {
 
 
 
-        $this->helpCUF->generateResponseOk($paths);
+        $this->help->generateResponseOk($paths);
     }
 
     public function getAllDirectoriesFromDirectory() {
         // $json=$this->helpCUF->getObjectFromJson();
-        $dirBase = $this->helpCUF->uploadDir();
+        $dirBase = $this->help->uploadDir();
         $dirIterator = new DirectoryIterator($dirBase);
 
         $iter = new IteratorIterator($dirIterator);
@@ -47,13 +47,13 @@ class FileRestCUF extends BasicRestCUF {
                 $dirs[] = $file->getFilename();
         }
 
-        $this->helpCUF->generateResponseOk($dirs);
+        $this->help->generateResponseOk($dirs);
     }
 
     public function getFilesFromDirectory() {
         //TODO: add security
-        $jPath = $this->helpCUF->getObjectFromJson();
-        $dirPath = $this->helpCUF->uploadDir() . $jPath['path'];
+        $jPath = $this->help->getObjectFromJson();
+        $dirPath = $this->help->uploadDir() . $jPath['path'];
 
 
 
@@ -80,51 +80,56 @@ class FileRestCUF extends BasicRestCUF {
                 }
             }
 
-            $this->helpCUF->generateResponseOk($files);
+            $this->help->generateResponseOk($files);
         } else {
             //TODO: empty path
         }
     }
 
     public function verifyFile() {
-        $jSrc = $this->helpCUF->getObjectFromJson();
-        
+        $jSrc = $this->help->getObjectFromJson();
+
         //this is for security reasons
-        if (stripos("..", $jSrc['name'])!==false||stripos("..", $jSrc['path'])!==false) {
+        if (stripos("..", $jSrc['name']) !== false || stripos("..", $jSrc['path']) !== false) {
             return;
         }
-        
-        
-        $filePath =   $jSrc['path'] . '/' . $jSrc['name'];
-        
+
+
+        $filePath = $jSrc['path'] . '/' . $jSrc['name'];
+
         //security 
-        if (file_exists($this->helpCUF->uploadDir().$filePath)) {
+        if (file_exists($this->help->uploadDir() . $filePath)) {
 
-            
-            
-            $statusCUF = new statusCUF();
-            $statusCUF->setInServer(StatusInServerCUF::$INSERVER);
+            $statusResponse = new StatusResponseCUF();
+            $status = new statusCUF();
+            $status->setInServer(StatusInServerCUF::$INSERVER);
+            $statusResponse->setStatus($status);
+            $checkers = new CheckersCUF($this->database);
+            $checkerAttach = new CheckerSpecialImageAttachCUF($this->database);
 
-            $checkers = new CheckersCUF($this->databaseCUF);
-            $checkerAttach = new CheckerSpecialImageAttachCUF($this->databaseCUF);
-
-            if ($checkers->verify($filePath, $this->optionsCUF)) {
-                $statusCUF->setUsed(StatusUsedCUF::$USED);
+            if ($checkers->verify($filePath, $this->options)) {
+                $status->setUsed(StatusUsedCUF::$USED);
             } else {
-                $statusCUF->setUsed(StatusUsedCUF::$UNUSED);
+                $status->setUsed(StatusUsedCUF::$UNUSED);
             }
-            
-            $statusCUF->setAttach(StatusAttachCUF::$UNATTACH);
 
-            $resultCheckerAttach = $checkerAttach->verify($jSrc['name'], $this->optionsCUF);
-            
-            if (!empty($resultCheckerAttach) && count($resultCheckerAttach) > 0) {
-                $statusCUF->setAttach(StatusAttachCUF::$ATTACH);
-            } 
-            
+            $status->setAttach(StatusAttachCUF::$UNATTACH);
+
+            $resultCheckerAttach = $checkerAttach->verify($jSrc['name'], $this->options);
+
+            if (!empty($resultCheckerAttach)) {
+                $count = count($resultCheckerAttach);
+                if ($count == 1) {
+                 $statusResponse->setId($resultCheckerAttach['0']);
+                 $status->setAttach(StatusAttachCUF::$ATTACH);
+                } else if($count > 1) {
+                    //TODO:......
+                }
+            }
 
 
-            $this->helpCUF->generateResponseOk($statusCUF);
+
+            $this->help->generateResponseOk($status);
         } else {
             
         }

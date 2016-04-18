@@ -6,14 +6,14 @@
  */
 abstract class CheckerImageAbstractCUF {
 
-    protected $databaseCUF;
-    protected $checkersCUF;
+    protected $database;
+    protected $checkers;
 
-    function __construct($databaseCUF, $checkersCUF)
+    function __construct($database, $checkers)
     {
-        $this->databaseCUF = $databaseCUF;
-        $this->checkersCUF=$checkersCUF;
-        $this->checkersCUF->addChecker($this);
+        $this->database = $database;
+        $this->checkers=$checkers;
+        $this->checkers->addChecker($this);
     }
 
 

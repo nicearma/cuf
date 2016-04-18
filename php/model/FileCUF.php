@@ -135,9 +135,6 @@ class FileCUF implements JsonSerializable
         $this->type = $type;
     }
 
-
-   
-
     public function jsonSerialize()
     {
         return get_object_vars($this);

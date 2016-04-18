@@ -195,6 +195,9 @@ if (is_admin()) {
     if (!class_exists('StatusAttachCUF')) {
         include_once 'php/model/StatusAttachCUF.php';
     }
+    if (!class_exists('StatusResponseCUF')) {
+        include_once 'php/model/StatusResponseCUF.php';
+    }    
     if (!class_exists('StatusUsedCUF')) {
         include_once 'php/model/StatusUsedCUF.php';
     }
