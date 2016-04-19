@@ -10,6 +10,7 @@
         <thead>
         <tr>
             <th class="manage-column column-title"><?php _e('Name', 'cuf'); ?></th>
+            <th class="manage-column column-title"><?php _e('ID', 'cuf'); ?></th>
             <th class="manage-column column-title"><?php _e('Size', 'cuf'); ?></th>
             <th class="manage-column column-title"><?php _e('Type', 'cuf'); ?></th>
             <th class="manage-column column-title"><?php _e('Path', 'cuf'); ?></th>
@@ -21,7 +22,11 @@
         </thead>
         <tbody>
             <tr ng-repeat="file in files">
-                <td>{{file.name}}</td>
+                <td>{{file.name}} /td>
+               <td>
+                   <span ng-if="_.isUndefinied(file.id)">----</span>
+                   <span ng-if="!_.isUndefinied(file.id)">{{file.id}}</span>
+               </td>
                 <td>{{file.size}}</td>
                 <td>{{file.type}}</td>
                 <td>{{file.path}}</td>

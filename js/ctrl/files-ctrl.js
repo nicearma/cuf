@@ -29,17 +29,24 @@ angular.module('cufPlugin')
                     if(!_.isUndefined(resultFiles.data)){
 
                         angular.forEach(resultFiles.data,function(file){
-                            file.status.inServer=STATUS.USED.ASKING;
+                            file.status.used=STATUS.USED.ASKING;
                             file.status.attach=STATUS.ATTACH.ASKING;
                             FilesResource.verifyFile({path:$scope.pathDir,name:file.name}).$promise.then(function(resultVerify){
                                
-                                file.status= resultVerify.data;
-                                console.log( file.status);
-                                if(file.status.used==STATUS.USED.UNUSED&&file.status.attach==STATUS.ATTACH.UNATTACH){
+                                file.status= resultVerify.data.status;
+                                
+                                file.id=resultVerify.data.id;
+                                
+                                if(file.status.used==STATUS.USED.UNUSED){
+                                {
                                     
-                                    if(file.type.indexOf("image")==-1){
+                                    if($scope.options.deleteAttached ||file.status.attach==STATUS.ATTACH.UNATTACH){
                                         file.toDelete=true;
+                                    }else{
+                                        file.toDelete=false;
                                     }
+                                }
+                                    
                                    
                                 }
                             });

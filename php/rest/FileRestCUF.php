@@ -119,17 +119,19 @@ class FileRestCUF extends BasicRestCUF {
 
             if (!empty($resultCheckerAttach)) {
                 $count = count($resultCheckerAttach);
+                
+                $status->setAttach(StatusAttachCUF::$ATTACH);
+                
                 if ($count == 1) {
-                 $statusResponse->setId($resultCheckerAttach['0']);
-                 $status->setAttach(StatusAttachCUF::$ATTACH);
+                   $statusResponse->setId($resultCheckerAttach['0']['post_id']);
+                 
                 } else if($count > 1) {
                     //TODO:......
+                    $statusResponse->setId($resultCheckerAttach['0']['post_id']);                  
+                   
                 }
             }
-
-
-
-            $this->help->generateResponseOk($status);
+            $this->help->generateResponseOk($statusResponse);
         } else {
             
         }
