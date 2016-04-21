@@ -22,10 +22,10 @@
         </thead>
         <tbody>
             <tr ng-repeat="file in files">
-                <td>{{file.name}} /td>
+                <td>{{file.name}} </td>
                <td>
-                   <span ng-if="_.isUndefinied(file.id)">----</span>
-                   <span ng-if="!_.isUndefinied(file.id)">{{file.id}}</span>
+                   <span ng-if="_.isUndefined(file.id)">----</span>
+                   <span ng-if="!_.isUndefined(file.id)">{{file.id}}</span>
                </td>
                 <td>{{file.size}}</td>
                 <td>{{file.type}}</td>
@@ -63,4 +63,5 @@
 
 
     </table>
+    
 </div>

@@ -100,7 +100,7 @@
             </td>
 
             <td>
-               <input type="checkbox" ng-model="options.deleteAttached" />
+               <input type="checkbox" ng-model="options.deleteAttached" ng-change="refreshDeleteButton()" />
 
             </td>
 

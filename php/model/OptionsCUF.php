@@ -262,14 +262,14 @@ class OptionsCUF implements JsonSerializable {
     /**
      * @return boolean
      */
-    function getDeleteAttached() {
+    function isDeleteAttached() {
         return $this->deleteAttached;
     }
     
     /**
      * @param boolean $deleteAttached
      */
-    function isDeleteAttached($deleteAttached) {
+    function setDeleteAttached($deleteAttached) {
         if (is_bool($deleteAttached)) {
             $this->deleteAttached = $deleteAttached;
         }

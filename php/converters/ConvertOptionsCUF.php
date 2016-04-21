@@ -38,9 +38,9 @@ class ConvertOptionsCUF
 
     }
 
-    public static function convertOptionJsonToOptionDNUI($optionJson)
+    public static function convertOptionJsonToOptionCUF($optionJson)
     {
-        $optionsCUF = new OptionsUCF();
+        $optionsCUF = new OptionsCUF();
         $optionsCUF->setUpdateInServer($optionJson->updateInServer);
         $optionsCUF->setBackup($optionJson->backup);
         $optionsCUF->setAdmin($optionJson->admin);
@@ -51,6 +51,8 @@ class ConvertOptionsCUF
         $optionsCUF->setExcerptCheck($optionJson->excerptCheck);
         $optionsCUF->setPostMetaCheck($optionJson->postMetaCheck);
         $optionsCUF->setDraftCheck($optionJson->draftCheck);
+        
+        $optionsCUF->setDeleteAttached($optionJson->deleteAttached);
       
         $optionsCUF->setOrder($optionJson->order);
  	$optionsCUF->setDebug($optionJson->debug);

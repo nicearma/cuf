@@ -58,8 +58,8 @@ function CUF_admin_menu()
 
     /* Add our plugin submenu and administration screen */
     $page_hook_suffix = add_submenu_page('tools.php', // The parent page of this submenu
-        __('CUF Clean upload file', 'cuf'), // The submenu title
-        __('CUF Clean upload file', 'cuf'), // The screen title
+        __('CUF Clean upload folder', 'cuf'), // The submenu title
+        __('CUF Clean upload folder', 'cuf'), // The screen title
         'activate_plugins', // The capability required for access to this submenu
         'cuf', // The slug to use in the URL of the screen
         'CUF_display_menu' // The function to call to display the screen
