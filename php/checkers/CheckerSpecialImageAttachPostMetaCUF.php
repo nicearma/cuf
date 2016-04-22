@@ -4,7 +4,7 @@
  *
  * @author nicearma
  */
-class CheckerSpecialImageAttachCUF {
+class CheckerSpecialImageAttachPostMetaCUF {
 
     protected $database;
 
@@ -13,7 +13,7 @@ class CheckerSpecialImageAttachCUF {
     }
 
     function verify($src, $option) {
-         $sql = "SELECT id FROM " . $this->database->getPrefix() . "posts WHERE post_content is not null and post_content!=''  and post_type in ('attachment') and post_content LIKE '%$src%' limit 0, 1";
+        $sql = "SELECT post_id FROM " . $this->database->getPrefix() . "postmeta WHERE meta_key in ('_wp_attached_file','_wp_attachment_metadata') and meta_value LIKE '%$src%' limit 0, 1";
         return $this->database->getDb()->get_results($sql, "ARRAY_A");
     }
 

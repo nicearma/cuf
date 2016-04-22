@@ -246,6 +246,9 @@ if (is_admin()) {
     if (!class_exists('CheckerSpecialImageAttachCUF')) {
         include_once 'php/checkers/CheckerSpecialImageAttachCUF.php';
     }
+    if (!class_exists('CheckerSpecialImageAttachPostMetaCUF')) {
+        include_once 'php/checkers/CheckerSpecialImageAttachPostMetaCUF.php';
+    }
     
     if (!class_exists('CheckersCUF')) {
         include_once 'php/checkers/CheckersCUF.php';

@@ -106,6 +106,7 @@ class FileRestCUF extends BasicRestCUF {
             $statusResponse->setStatus($status);
             $checkers = new CheckersCUF($this->database);
             $checkerAttach = new CheckerSpecialImageAttachCUF($this->database);
+            $checkerAttachPostMeta = new CheckerSpecialImageAttachPostMetaCUF($this->database);
 
             if ($checkers->verify($filePath, $this->options)) {
                 $status->setUsed(StatusUsedCUF::$USED);
@@ -115,21 +116,42 @@ class FileRestCUF extends BasicRestCUF {
 
             $status->setAttach(StatusAttachCUF::$UNATTACH);
 
-            $resultCheckerAttach = $checkerAttach->verify($jSrc['name'], $this->options);
+            $resultCheckerAttach = $checkerAttach->verify($filePath, $this->options);
 
             if (!empty($resultCheckerAttach)) {
                 $count = count($resultCheckerAttach);
                 
-                $status->setAttach(StatusAttachCUF::$ATTACH);
+                $status->setAttach(StatusAttachCUF::$ATTACH_ORIGINAL);
                 
                 if ($count == 1) {
-                   $statusResponse->setId($resultCheckerAttach['0']['post_id']);
+                   $statusResponse->setId($resultCheckerAttach['0']['id']);
                  
                 } else if($count > 1) {
                     //TODO:......
-                    $statusResponse->setId($resultCheckerAttach['0']['post_id']);                  
+                    $statusResponse->setId($resultCheckerAttach['0']['id']);                  
                    
                 }
+            }else{
+              $resultCheckerAttachPostMeta=  $checkerAttachPostMeta->verify($jSrc['name'], $this->options);
+            
+              if (!empty($resultCheckerAttachPostMeta)) {
+                $count = count($resultCheckerAttachPostMeta);
+                
+                $status->setAttach(StatusAttachCUF::$ATTACH_META);
+                
+                if ($count == 1) {
+                   $statusResponse->setId($resultCheckerAttachPostMeta['0']['post_id']);
+                 
+                } else if($count > 1) {
+                    //TODO:......
+                    $statusResponse->setId($resultCheckerAttachPostMeta['0']['post_id']);                  
+                   
+                }
+            }
+              
+              
+              
+              
             }
             $this->help->generateResponseOk($statusResponse);
         } else {
@@ -140,5 +162,7 @@ class FileRestCUF extends BasicRestCUF {
     public function deleteFile() {
         
     }
+    
+    
 
 }

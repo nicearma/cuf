@@ -8,8 +8,7 @@ angular.module('cufPlugin')
             $scope.status=STATUS;
         	$scope.base='';
             $scope.base=[];
-            $scope.files={data:{}};
-            
+            var files;
       		$rootScope.$on('tabFiles', function () {
                 $scope.directories = FilesResource.getAllDirectories().$promise.then(function(resultDirs){
                      $scope.base =resultDirs.data.base;
@@ -34,34 +33,44 @@ angular.module('cufPlugin')
                                 }
             };
             
-           $scope.filesOrdered={};
-            
+           $scope.orderedFiles={};
+           $scope.orderedFilesUnique={};
             var orderFile=function(file){
                 if(!_.isUndefined(file.id)){
-                    if(_.isUndefined( $scope.filesOrdered[file.id])){
-                        $scope.filesOrdered[file.id]=[];
+                    if(_.isUndefined($scope.orderedFilesUnique[file.id]) && _.isUndefined($scope.orderedFiles[file.id])){
+                      $scope.orderedFilesUnique[file.id]=[];
+                      $scope.orderedFilesUnique[file.id].push(file);
+                    }else{
+                        if(_.isUndefined($scope.orderedFiles[file.id])){
+                             $scope.orderedFiles[file.id]=$scope.orderedFilesUnique[file.id];
+                             delete $scope.orderedFilesUnique[file.id];
+                          }
+                         $scope.orderedFiles[file.id].push(file);
+                        
                     }
-                    $scope.filesOrdered[file.id].push(file);
+                   
                 }else{
-                     if(_.isUndefined( $scope.filesOrdered['unattached'])){
-                        $scope.filesOrdered['unattached']=[];
+                     if(_.isUndefined( $scope.orderedFiles['unattached'])){
+                        $scope.orderedFiles['unattached']=[];
                     }
-                    $scope.filesOrdered[file.id].push(file);
+                    $scope.orderedFiles[file.id].push(file);
                 }
                 
             };
+
+            
 
             $scope.scanPathDir=function(){
                 
                 if(!_.isUndefined($scope.pathDir)&&$scope.pathDir!=""){
                     
                   FilesResource.getFilesFromDirectory({path:$scope.pathDir}).$promise.then(function(resultFiles){
-                    $scope.files=resultFiles.data;
+                    files=resultFiles.data;
                     if(!_.isUndefined(resultFiles.data)){
 
                         angular.forEach(resultFiles.data,function(file){
                             
-                            orderFile(file);
+                            
                             file.status.used=STATUS.USED.ASKING;
                             file.status.attach=STATUS.ATTACH.ASKING;
                             FilesResource.verifyFile({path:$scope.pathDir,name:file.name}).$promise.then(function(resultVerify){
@@ -71,6 +80,7 @@ angular.module('cufPlugin')
                                 file.id=resultVerify.data.id;
                                 
                                 verifyStatus(file);
+                                orderFile(file);
                             });
                         });
                         
@@ -84,9 +94,11 @@ angular.module('cufPlugin')
             
             
             $rootScope.$on('refreshDeleteButton', function () {
-                angular.forEach($scope.files,function(file){
+                angular.forEach(files,function(file){
                         verifyStatus(file);
                 });
+                
+                
             });
             
             var makeBackup=function(file){
