@@ -43,12 +43,14 @@ class FileRestCUF extends BasicRestCUF
         //security 
       if(file_exists($jSrc->src)){
         $uploadDir= $this->helpCUF->uploadDir();
-        //TODO: verify if the file is in the upload dir
-        if(true){
-          $checkers= new CheckersCUF();
+
+          if ((0 === strpos($jSrc->src, $uploadDir)) && (false ==!strpos($jSrc->src, ".."))) {
+
+
+          $checkers= new CheckersCUF($this->databaseCUF);
           $statusCUF= new statusCUF();
-          $checkerAttach= new CheckerSpecialImageAttachCUF();
-         
+          $checkerAttach= new CheckerSpecialImageAttachCUF($this->databaseCUF);
+
           if($checkers->verify($jSrc->src, $this->optionsCUF)){
             $statusCUF->setUsed(StatusUsedCUF::$USED);
           }else{
@@ -57,7 +59,7 @@ class FileRestCUF extends BasicRestCUF
           
           $resultCheckerAttach=$checkerAttach->verify($jSrc->src, $this->optionsCUF);
 
-          if(!empty($result)&&count($result)>0){
+          if(!empty($resultCheckerAttach)&&count($resultCheckerAttach)>0){
              $statusCUF->setAttach(StatusAttachCUF::$ATTACH);
           }else{
              $statusCUF->setAttach(StatusAttachCUF::$UNATTACH);

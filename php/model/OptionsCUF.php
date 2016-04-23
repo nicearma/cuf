@@ -34,7 +34,7 @@ class OptionsCUF implements JsonSerializable
         $helper= new HelperCUF();
         $this->backup =$helper->backupFolderExist();
         $this->admin = true;
-        $this->ignoreExtension=array(".htaccess");
+        $this->ignoreExtension=array(".htaccess",".php");
         $this->ignoreFolder = array("dnui");
         $this->showUsedImage=false;
 
@@ -309,6 +309,23 @@ class OptionsCUF implements JsonSerializable
     {
         $this->ignoreFolder = $ignoreFolder;
     }
+
+    /**
+     * @return array
+     */
+    public function getIgnoreExtension()
+    {
+        return $this->ignoreExtension;
+    }
+
+    /**
+     * @param array $ignoreExtension
+     */
+    public function setIgnoreExtension($ignoreExtension)
+    {
+        $this->ignoreExtension = $ignoreExtension;
+    }
+
 
 
 
