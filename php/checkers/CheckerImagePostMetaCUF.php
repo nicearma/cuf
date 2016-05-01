@@ -6,14 +6,14 @@
 class CheckerImagePostMetaCUF extends CheckerImageAbstractCUF{
 
 
-    function checkImage($src, $optionCUF)
+    function checkImage($src, $option)
     {
 
-    	if ($optionCUF->isPostMetaCheck()) {
+    	if ($option->isPostMetaCheck()) {
        
-	        $sql = "SELECT post_id FROM " .$this->databaseCUF->getPrefix() . "postmeta WHERE meta_key not in  ('_wp_attachment_metadata','_wp_attached_file') and meta_value LIKE '%/$src%'";
+	        $sql = "SELECT post_id FROM " .$this->database->getPrefix() . "postmeta WHERE meta_key not in  ('_wp_attachment_metadata','_wp_attached_file') and meta_value LIKE '%/$src%'";
 
-	        return  $this->databaseCUF->getDb()->get_results($sql, "ARRAY_A");
+	        return  $this->database->getDb()->get_results($sql, "ARRAY_A");
 		}
 
 		return array();

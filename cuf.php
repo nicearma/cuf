@@ -1,8 +1,8 @@
 <?php
 /*
-  Plugin Name: CUF (Clean upload path)
+  Plugin Name: CUF (Clean upload folder)
   Version: 1.0
-  Plugin URI: https://wordpress.org/plugins/cuf-cleanup-upload-path/
+  Plugin URI: https://wordpress.org/plugins/cuf-cleanup-upload-folder/
   Author: Nicearma
   Author URI: http://www.nicearma.com/
   Text Domain: cuf
@@ -58,8 +58,8 @@ function CUF_admin_menu()
 
     /* Add our plugin submenu and administration screen */
     $page_hook_suffix = add_submenu_page('tools.php', // The parent page of this submenu
-        __('CUF Clean upload path', 'cuf'), // The submenu title
-        __('CUF Clean upload path', 'cuf'), // The screen title
+        __('CUF Clean upload folder', 'cuf'), // The submenu title
+        __('CUF Clean upload folder', 'cuf'), // The screen title
         'activate_plugins', // The capability required for access to this submenu
         'cuf', // The slug to use in the URL of the screen
         'CUF_display_menu' // The function to call to display the screen
@@ -106,7 +106,7 @@ function CUF_display_menu()
 
             <uib-tabset>
 
-                <uib-tab  heading="<?php _e('Warning', 'cuf') ?>">
+                <uib-tab  heading="<?php _e('Warning', 'cuf'); ?>">
                     <h1>
                         <?php _e('WARNING ABOUT THIS PLUGIN', 'cuf') ?>
                     </h1>
@@ -115,14 +115,14 @@ function CUF_display_menu()
 
                 <uib-tab select='tabFiles()' heading="<?php _e('Files', 'cuf') ?>">
                     <h1>
-                        <?php _e('CUF search unused/used image in the upload path', 'cuf') ?>
+                        <?php _e('CUF search unused/used file in the upload folder', 'cuf'); ?>
                     </h1>
                     <?php include_once 'html/files.php'; ?>
                 </uib-tab>
 
                 <uib-tab select='tabBackups()' heading="<?php _e('Backups', 'cuf') ?>">
                     <h1>
-                        <?php _e('CUF backup', 'cuf') ?>
+                        <?php _e('CUF backup', 'cuf'); ?>
                     </h1>
                     <?php include_once 'html/backup.php'; ?>
 
@@ -130,14 +130,14 @@ function CUF_display_menu()
 
                 <uib-tab select='tabOptions()' heading="<?php _e('Options', 'cuf') ?>">
                     <h1>
-                        <?php _e('CUF options', 'cuf') ?>
+                        <?php _e('CUF options', 'cuf'); ?>
                     </h1>
                     <?php include_once 'html/options.php'; ?>
                 </uib-tab>
 
                 <uib-tab select='tabLogs()' heading="<?php _e('Logs', 'cuf') ?>">
                     <h1>
-                        <?php _e('CUF Logs', 'cuf') ?>
+                        <?php _e('CUF Logs', 'cuf'); ?>
                     </h1>
                     <?php include_once 'html/log.php'; ?>
                 </uib-tab>
@@ -165,12 +165,8 @@ function cuf_load_textdomain() {
 if (is_admin()) {
 
     include_once 'php/php5_3/JsonSerializable.php';
-/*
-	if (!class_exists('ErrorHandlerCUF')) {
-        include_once 'php/model/ErrorHandlerCUF.php';
-    }
-*/
- 	if (!class_exists('RestResponseCUF')) {
+
+    if (!class_exists('RestResponseCUF')) {
         include_once 'php/model/RestResponseCUF.php';
     }
 
@@ -199,6 +195,9 @@ if (is_admin()) {
     if (!class_exists('StatusAttachCUF')) {
         include_once 'php/model/StatusAttachCUF.php';
     }
+    if (!class_exists('StatusResponseCUF')) {
+        include_once 'php/model/StatusResponseCUF.php';
+    }    
     if (!class_exists('StatusUsedCUF')) {
         include_once 'php/model/StatusUsedCUF.php';
     }
@@ -238,21 +237,19 @@ if (is_admin()) {
     if (!class_exists('CheckerImageExcerptAllCUF')) {
         include_once 'php/checkers/CheckerImageExcerptAllCUF.php';
     }
-    if (!class_exists('CheckerImageExcerptBestLuckCUF')) {
-        include_once 'php/checkers/CheckerImageExcerptBestLuckCUF.php';
-    }
     if (!class_exists('CheckerImagePostAndPageAllCUF')) {
         include_once 'php/checkers/CheckerImagePostAndPageAllCUF.php';
     }
-    if (!class_exists('CheckerImagePostAndPageBestLuckCUF')) {
-        include_once 'php/checkers/CheckerImagePostAndPageBestLuckCUF.php';
-    }
     if (!class_exists('CheckerImagePostMetaCUF')) {
         include_once 'php/checkers/CheckerImagePostMetaCUF.php';
     }
-    if (!class_exists('CheckerImagePostMetaCUF')) {
-        include_once 'php/checkers/CheckerImagePostMetaCUF.php';
+    if (!class_exists('CheckerSpecialImageAttachCUF')) {
+        include_once 'php/checkers/CheckerSpecialImageAttachCUF.php';
     }
+    if (!class_exists('CheckerSpecialImageAttachPostMetaCUF')) {
+        include_once 'php/checkers/CheckerSpecialImageAttachPostMetaCUF.php';
+    }
+    
     if (!class_exists('CheckersCUF')) {
         include_once 'php/checkers/CheckersCUF.php';
     }

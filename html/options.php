@@ -91,6 +91,24 @@
         <tr>
             <td scope="row">
                 <p>
+                    <?php _e("Delete attach file", 'cuf'); ?>
+                    <small>
+                        <?php _e("If you chose this, you have the right to delete attached files if they are unused", 'cuf'); ?>                       
+                    </small>
+                </p>
+
+            </td>
+
+            <td>
+               <input type="checkbox" ng-model="options.deleteAttached" ng-change="refreshDeleteButton()" />
+
+            </td>
+
+        </tr>
+        
+        <tr>
+            <td scope="row">
+                <p>
                     <?php _e("Debug", 'cuf'); ?>
                     <small>
                         <?php _e("Use this only if think the plugin is not workning fine", 'cuf'); ?>

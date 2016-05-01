@@ -73,6 +73,22 @@ class StatusCUF implements JsonSerializable
 
 
 
+    /**
+     * @return int
+     */
+    public function getAttach()
+    {
+        return $this->attach;
+    }
+
+    /**
+     * @param int $attach
+     */
+    public function setAttach($attach)
+    {
+        $this->attach = $attach;
+    }
+
     public function jsonSerialize()
     {
         return get_object_vars($this);

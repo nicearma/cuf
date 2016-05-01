@@ -2,9 +2,9 @@
 Contributors: nicearma
 Donate link: 
 Tags: image, file, upload cleanup, cleanup, cleanup upload, delete files
-Requires at least: 4.0
-Tested up to: 4.0
-Stable tag: 0.1
+Requires at least: 4.4
+Tested up to: 4.5
+Stable tag: 1.0
 
 Find all file from your upload folder that are not used or simple not refered in the database of the wordpress site. 
 

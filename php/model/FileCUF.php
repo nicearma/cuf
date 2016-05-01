@@ -15,10 +15,13 @@ class FileCUF implements JsonSerializable
     public $src; //the origina src
     public $size;
     public $type;
+    public $toDelete;
 
+    function __construct() {
+        $this->toDelete = false;
+    }
 
-
-    /**
+        /**
      * @return mixed
      */
     public function getId()
@@ -131,9 +134,6 @@ class FileCUF implements JsonSerializable
     {
         $this->type = $type;
     }
-
-
-   
 
     public function jsonSerialize()
     {

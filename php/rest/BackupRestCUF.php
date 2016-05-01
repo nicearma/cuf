@@ -20,7 +20,7 @@ class BackupRestCUF  extends BasicRestCUF
 
     public function readAll()
     {
-        echo json_encode($this->helpCUF->getFilesFromFolder($this->helpCUF->backupDir()), JSON_FORCE_OBJECT);
+        echo json_encode($this->help->getFilesFromFolder($this->help->backupDir()), JSON_FORCE_OBJECT);
         wp_die();
     }
 
@@ -36,9 +36,9 @@ class BackupRestCUF  extends BasicRestCUF
         }
 
         $statusBackup = new StatusBackupCUF();
-        $backupDir = $this->helpCUF->backupDir();
+        $backupDir = $this->help->backupDir();
         $backupIdPath = $backupDir . '/' . $backupId . '/';
-        $backFiles =$this->helpCUF->getFilesFromFolder($backupIdPath);
+        $backFiles =$this->help->getFilesFromFolder($backupIdPath);
         foreach ($backFiles as $file) {
             @unlink($backupIdPath . $file);
         }
@@ -77,7 +77,7 @@ class BackupRestCUF  extends BasicRestCUF
 
         $imageCUF = ConvertWordpressToCUF::convertIdToImageCUF($imageId);
 
-        $backupDir = $this->helpCUF->backupDir();
+        $backupDir = $this->help->backupDir();
         $uploadDir = wp_upload_dir();
         $basedir = $uploadDir['basedir'];
 
@@ -92,8 +92,8 @@ class BackupRestCUF  extends BasicRestCUF
             array_pop($uploadDirs);
             $uploadDir = implode("/", $uploadDirs);
             $backupInfo["uploadDir"] = $uploadDir;
-            $backupInfo["posts"] = $this->databaseCUF->getRowPost($imageId);
-            $backupInfo["postMeta"] = $this->databaseCUF->getRowPostMeta($imageId);
+            $backupInfo["posts"] = $this->database->getRowPost($imageId);
+            $backupInfo["postMeta"] = $this->database->getRowPostMeta($imageId);
 
             $tmpBackupFileImage = $tmpBackupDirImage . $imageId . '.backup';
             if (!file_exists($tmpBackupFileImage)) {
@@ -157,8 +157,8 @@ class BackupRestCUF  extends BasicRestCUF
 
         $statusBackup = new StatusBackupCUF();
 
-        $backupDir =$this->helpCUF->backupDir();
-        $backFiles = $this->helpCUF->getFilesFromFolder($backupDir . '/' . $backupId . '/');
+        $backupDir =$this->help->backupDir();
+        $backFiles = $this->help->getFilesFromFolder($backupDir . '/' . $backupId . '/');
         $fileImages = preg_grep("/^(?!.*\\.backup)/", $backFiles);
         $fileBackup = preg_grep("/^(.*\\.backup)/", $backFiles);
         $fileBackupFile = $backupDir . '/' . $backupId . '/' . array_pop($fileBackup);
@@ -168,10 +168,10 @@ class BackupRestCUF  extends BasicRestCUF
 
         $backupInfo = unserialize(file_get_contents($fileBackupFile));
         foreach ($backupInfo["posts"] as $posts) {
-            $this->databaseCUF->getDb()->replace($this->databaseCUF->getPrefix() . "posts", $posts);
+            $this->database->getDb()->replace($this->database->getPrefix() . "posts", $posts);
         }
         foreach ($backupInfo["postMeta"] as $postMeta) {
-            $this->databaseCUF->getDb()->replace($this->databaseCUF->getPrefix() . "postmeta", $postMeta);
+            $this->database->getDb()->replace($this->database->getPrefix() . "postmeta", $postMeta);
         }
 
         foreach ($fileImages as $image) {
@@ -192,7 +192,7 @@ class BackupRestCUF  extends BasicRestCUF
     public function  makeBackupFolder()
     {
         $statusBackup = new StatusBackupCUF();
-        $backupDir = $this->helpCUF->backupDir();
+        $backupDir = $this->help->backupDir();
         if (!file_exists($backupDir)) {
             mkdir($backupDir, 0755, true);
             if (!file_exists($backupDir)) {
@@ -209,7 +209,7 @@ class BackupRestCUF  extends BasicRestCUF
     {
         $statusBackup = new StatusBackupCUF();
 
-        if ($this->helpCUF->backupFolderExist()) {
+        if ($this->help->backupFolderExist()) {
             $statusBackup->setInServer(1); // 1 -> exists
         } else {
             $statusBackup->setInServer(0); // 0 -> not exists

@@ -43,6 +43,9 @@ angular.module('cufPlugin')
 
             });
 
+            $scope.refreshDeleteButton=function(){
+                 $rootScope.$broadcast('refreshDeleteButton', $scope.options);
+            };
 
 
             $scope.makeBackupFolder = function () {
